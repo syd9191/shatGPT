@@ -1,1 +1,7 @@
+#backend packages
 backend/node_modules
+#frontend packages
+frontend/node_modules
+#llmServer packages
+llmServer/venv
+llmServer/.env
