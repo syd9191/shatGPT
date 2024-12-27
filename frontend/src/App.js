@@ -7,12 +7,16 @@ import axios from 'axios'; //This is for getting post req from the other server
 function App() {
   const [message, setMessage] = useState('');
   const [reply, setReply] = useState('');
+  const [tokensUsed, setTokensUsed]= useState(0);
+
 
   const sendMessage= async () => {
-    const reply= await axios.post('http://localhost:3000/api/chatbot', { userMessage: message });
-    setReply(reply.data.chatBotReply);
-    console.log("hello");
+    const reply= await axios.post('http://127.0.0.1:3000/api/chatbot', { message : message });
+    console.log(reply.data.chatBotReply);
+    console.log(reply.data.total_tokens);
 
+    setReply(reply.data.chatBotReply.content);
+    setTokensUsed(reply.data.total_tokens);
   }
 
   return (
@@ -42,6 +46,9 @@ function App() {
 
             <div style={{ marginTop: '20px' }}>
                 <strong>Bot Reply:</strong> {reply || 'No reply yet'}
+                <br /> 
+                <strong>Tokens Used:</strong> {tokensUsed || 'No tokens used yet'}
+
             </div>
 
     </div>
