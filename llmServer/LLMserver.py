@@ -4,9 +4,11 @@ from dotenv import load_dotenv
 from openai import OpenAI
 from fastapi import FastAPI,HTTPException
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.encoders import jsonable_encoder
+from fastapi.responses import JSONResponse
 import uvicorn
 
-from schema import chatResponse, userMessage
+from schema import chatResponse, userMessage, ChatCompletionMessage
 
 load_dotenv()
 
@@ -37,9 +39,7 @@ async def chatBot(userMessage: userMessage):
             ])
         reply=completion.choices[0].message
         total_tokens=completion.usage.total_tokens
-        print(reply)
-        print(total_tokens)
-        return {"message":reply, "total_tokens":total_tokens}
+        return {'message':reply, 'total_tokens': total_tokens}
 
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
