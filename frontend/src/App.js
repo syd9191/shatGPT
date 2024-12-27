@@ -5,17 +5,17 @@ import axios from 'axios'; //This is for getting post req from the other server
 
 
 function App() {
-  const [message, setMessage] = useState('');
-  const [reply, setReply] = useState('');
+  const [userMessage, setUserMessage] = useState('');
+  const [gptReply, setgptReply] = useState('');
   const [tokensUsed, setTokensUsed]= useState(0);
 
 
-  const sendMessage= async () => {
-    const reply= await axios.post('http://127.0.0.1:3000/api/chatbot', { message : message });
+  const sendUserMessage= async () => {
+    const reply= await axios.post('http://127.0.0.1:3000/api/chatbot', { message : userMessage });
     console.log(reply.data.chatBotReply);
     console.log(reply.data.total_tokens);
 
-    setReply(reply.data.chatBotReply.content);
+    setgptReply(reply.data.chatBotReply.content);
     setTokensUsed(reply.data.total_tokens);
   }
 
@@ -24,12 +24,12 @@ function App() {
             <h1>Chatbot</h1>
             <div>
               <input type="text" 
-                value={message} 
-                onChange={(newMessage)=>setMessage(newMessage.target.value)}
+                value={userMessage} 
+                onChange={(newUserMessage)=>setUserMessage(newUserMessage.target.value)}
                 placeholder="Type your message"
                 style={{ padding: '10px', width: '70%' }} />
               <button 
-              onClick={sendMessage}
+              onClick={sendUserMessage}
               style={{
                 padding: '10px',
                 marginLeft: '10px',
@@ -45,7 +45,7 @@ function App() {
 
 
             <div style={{ marginTop: '20px' }}>
-                <strong>Bot Reply:</strong> {reply || 'No reply yet'}
+                <strong>Bot Reply:</strong> {gptReply || 'No reply yet'}
                 <br /> 
                 <strong>Tokens Used:</strong> {tokensUsed || 'No tokens used yet'}
 

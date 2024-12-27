@@ -18,16 +18,9 @@ app=FastAPI()
 
 app.add_middleware(CORSMiddleware, allow_origins=['*'])
 
-@app.get("/")
+@app.get("/health")
 async def health_check():
-    return {"status": "healthy"}
-
-@app.post("/chatbot/health")
-async def health_check():
-    try:
-        return {"status": "ok", "message": "Server is up and running!"}
-    except Exception as e:
-        raise HTTPException(status_code=500, detail="Server health check failed.")
+    return {'status': "LLM server healthy", 'message': "LLM Server is up and running"}
 
 
 @app.post("/chatbot/generate")
