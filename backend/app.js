@@ -35,6 +35,7 @@ const getLLMreply= async (userMessage)=>{
 
         const reply= await axios.post("http://127.0.0.1:5000/chatbot/generate", userMessage);
         return reply.data;
+        
     }catch (error){
         console.log(error);
     }
