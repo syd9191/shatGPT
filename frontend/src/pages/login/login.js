@@ -39,27 +39,27 @@ const LoginPage = () =>{
             <form onSubmit={handleSubmit}>
 
 
-            <div class="form-group">
-                <label for="exampleUsername">Username</label>
+            <div className="form-group">
+                <label htmlFor="exampleUsername">Username</label>
                 <input type="text" 
-                class="form-control" 
+                className="form-control" 
                 id="exampleUsername" 
                 placeholder="Enter Username" 
                 onChange={(e)=> setUsername(e.target.value)}/>
             </div>
 
-            <div class="form-group">
-                <label for="exampleInputPassword1">Password</label>
+            <div className="form-group">
+                <label htmlFor="exampleInputPassword1">Password</label>
                 <input type="password" 
-                class="form-control" 
+                className="form-control" 
                 id="exampleInputPassword1" 
                 placeholder="Password" 
                 onChange={(e)=>setPassword(e.target.value)}/>
             </div>
 
-            {error && <p className="error">{error}</p>} {/* Display error message if any */}
+            {error && <p classNameName="error">{error}</p>} {/* Display error message if any */}
 
-            <button type="submit" class="btn btn-primary">Log In</button>
+            <button type="submit" className="btn btn-primary">Log In</button>
 
             </form>
         </div>

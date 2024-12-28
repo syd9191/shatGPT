@@ -1,5 +1,5 @@
 import { useAuth } from "../context/authContext";
-import { Routes, Route } from 'react-router-dom';
+import {Routes, Route} from 'react-router-dom';
 import React from 'react';
 import LoginPage from "../pages/login/login";
 import ChatbotPage from "../pages/chatBot/chatbot";
