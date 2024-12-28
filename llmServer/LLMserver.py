@@ -38,8 +38,8 @@ async def chatBot(userMessage: userMessage):
                 {"role": "user", "content": userMessage.message}
             ])
         reply=completion.choices[0].message
-        total_tokens=completion.usage.total_tokens
-        return {'message':reply, 'total_tokens': total_tokens}
+        token_usage=completion.usage
+        return {'message':reply, 'token_usage': token_usage}
 
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))

@@ -11,12 +11,14 @@ function App() {
 
 
   const sendUserMessage= async () => {
-    const reply= await axios.post('http://127.0.0.1:3000/api/chatbot', { message : userMessage });
-    console.log(reply.data.chatBotReply);
-    console.log(reply.data.total_tokens);
+    const chatResponse= await axios.post('http://127.0.0.1:3000/api/chatbot', { message : userMessage });
 
-    setgptReply(reply.data.chatBotReply.content);
-    setTokensUsed(reply.data.total_tokens);
+    //logging the whole object: reference available in the UML diagram
+    console.log(chatResponse.data.replyDetailsObj); 
+    console.log(chatResponse.data.tokenUsageObj);
+
+    setgptReply(chatResponse.data.replyDetailsObj.content);
+    setTokensUsed(chatResponse.data.tokenUsageObj.total_tokens);
   }
 
   return (
