@@ -7,10 +7,10 @@
   justify-content: center;
   align-items: center;
   min-height: 100vh;
-  background: linear-gradient(135deg, #000000, #044ca9);
+  background: linear-gradient(135deg, #e8e8e8, #083b6d);
   padding: 20px;
   animation: none;
-  
+
 }
 
 h2 {

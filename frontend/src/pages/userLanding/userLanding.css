@@ -4,7 +4,7 @@
     justify-content: center;
     align-items: center;
     min-height: 100vh;
-    background: linear-gradient(135deg, #000000, #044ca9);
+    background: linear-gradient(135deg, #e8e8e8, #083b6d);
     padding: 20px;
     animation: fadeIn 0.6s ease-in-out;
 }
@@ -39,7 +39,7 @@ button {
 }
 
 button:hover {
-    background-color: #156b57;
+    background-color: #0e4728;
     transform: translateY(-2px);
 }
 
