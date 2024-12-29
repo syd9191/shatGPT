@@ -5,7 +5,6 @@ import './login.css';
 
 
 const LoginPage = () =>{
-    console.log("We Are At Login Page");
 
     const [username, setUsername] = useState(null);
     const [password, setPassword] = useState(null);
