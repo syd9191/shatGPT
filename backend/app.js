@@ -1,23 +1,42 @@
 const express= require('express');
 const cors= require('cors');
 const axios = require('axios');
+const mongoose = require('mongoose');
 const {pingBackendServer, pingLLMServer} = require('./healthCheck.js');
+const User = require('./schemas/userDetails.js');
+const userDetailSchema=require('./schemas/userDetails.js');
+
+
+require('dotenv').config();
+
+
 
 
 
 const port = 3000; //abstract this to config file at a later time
 const app= express();
-    
+const DBURI= process.env.DBURI;
 
+
+    
 
 //middleware
 app.use(express.json());
 app.use(express.urlencoded()); //remember we need this for post request body
 app.use(cors()); //this is for allowing cross origin
 
-app.listen(port, ()=>{
-    console.log(`Listening on port ${port}`)
-});
+
+mongoose.connect(DBURI)
+    .then(()=>{
+        console.log("MongoDB Connected!");
+        app.listen(port, ()=>{
+            console.log(`Listening on port ${port}`)
+        });
+    })
+    .catch((err)=>{
+        console.log(err);
+    });
+
 
 //health check
 app.get('/health', (req, res)=>{
@@ -54,5 +73,12 @@ app.post('/api/chatbot', async (req, res) => {
     res.json({replyDetailsObj: chatResponse.message, tokenUsageObj: chatResponse.token_usage});
 });
 
+//DB Methods: We do it in backend server like a boss
+app.post('/signup', (req, res)=>{
+    const userDetails=new userDetailSchema(req.body);
+    console.log(userDetails);
+    userDetails.save().then(res.send(userDetails));
+
+});
 
 
