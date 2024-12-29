@@ -34,6 +34,9 @@ const getLLMreply= async (userMessage)=>{
         pingBackendServer();
 
         const reply= await axios.post("http://127.0.0.1:5000/chatbot/generate", userMessage);
+
+        console.log('backend server received reply: ', reply.data.message.content);
+
         return reply.data; //this is the whole json object
         
     }catch (error){
@@ -44,7 +47,9 @@ const getLLMreply= async (userMessage)=>{
 //start with placeholder post req for main chatbot
 app.post('/api/chatbot', async (req, res) => {
     const userMessage=req.body;
-    console.log(userMessage);
+    console.log("Backend Server received userMessage: ", userMessage.message);
+
+
     const chatResponse= await getLLMreply(userMessage);
     res.json({replyDetailsObj: chatResponse.message, tokenUsageObj: chatResponse.token_usage});
 });
