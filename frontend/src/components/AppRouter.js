@@ -14,7 +14,7 @@ const AppRouter = () =>{
         <Routes>
             <Route path="/" element={user ? <ChatbotPage /> : <UserLanding />} />
             <Route path="/chatbot" element={user ? <ChatbotPage /> : <UserLanding />} />
-            <Route path="/login" element={<LoginPage />} />
+            <Route path="/login" element={<LoginPage/>} />
             <Route path="/signup" element={<SignupPage />} />
         </Routes>
     )

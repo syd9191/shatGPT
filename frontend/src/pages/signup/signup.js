@@ -13,6 +13,10 @@ const SignupPage = () =>{
     const {signup}= useAuth();
     const navigate= useNavigate();
 
+    const handleBack = ()=>{
+        navigate('/');
+    }
+
     const handleSubmit = async (e)=>{
         e.preventDefault(); //This prevents the browser from auto reloading the page when the form is submitted, and to wait for the auth
 
@@ -40,6 +44,7 @@ const SignupPage = () =>{
 
     return(
         <div className="signup-container">
+            <button className="back-button" onClick={handleBack}>← Back Home</button>
             <h2>Create New User</h2>
             <form onSubmit={handleSubmit}>
 

@@ -85,12 +85,38 @@ app.post('/signup', async (req, res)=>{
         const userDetails= new userDetailModel({username: username, 
                                                 password: hashedPw});
         userDetails.save()
-        console.log("Successful User Signup");
+        console.log("Backend Server: Successful User Sign Up");
         res.status(200).json({status:200, message:"Successful User Signup"})
     } catch (err){
         console.error(err);
         res.status(500).json({status:500,message: "Signup Failed"});
     }
     });
+
+app.post('/login', async (req, res)=>{
+    const {username, password}=req.body;
+    try{
+        const existingUser= await userDetailModel.findOne({username: username});
+        if (!existingUser){
+            return res.status(400).json({status:400, message:"This Username does not exist"})
+        }
+
+        const correctPassword= await bcrypt.compare(password, existingUser.password); //returns bool
+
+        if (correctPassword) {
+            console.log("Backend Server: User Sign In Successful");
+            res.status(200).json({ status: 200, message: "Successful User Login" }); // Corrected message
+        } else {
+            console.log("Wrong Password Entered");
+            res.status(401).json({ status: 401, message: "Wrong Password Entered" }); // Changed to 401 Unauthorized
+        }
+    } catch (err){
+        console.error(err);
+        res.status(500).json({status:500,message: "Login Failed"});
+    }
+});
+
+
+
 
 

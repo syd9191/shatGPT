@@ -19,13 +19,18 @@ export const AuthProvider = ({ children }) => {
     }
   } ,[]); 
 
-  const login = (userData) => {
-    setUser(userData); 
-
-    console.log(userData);
-    console.log(JSON.stringify(userData));
-
-    localStorage.setItem('user', JSON.stringify(userData)); 
+  const login = async (userData) => {
+    try{
+      const response = await axios.post('http://127.0.0.1:3000/login', userData);
+      console.log(response.data);
+      setUser(userData); 
+      localStorage.setItem('user', JSON.stringify(userData)); 
+      return response.data;
+      
+    } catch (error){
+      return {status: error.response.data.status, message: error.response.data.message};
+    }
+    
   };
 
   const logout = () => {

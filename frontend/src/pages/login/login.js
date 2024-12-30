@@ -13,6 +13,10 @@ const LoginPage = () =>{
     const {login}= useAuth();
     const navigate= useNavigate();
 
+    const handleBack = ()=>{
+        navigate('/');
+    }
+
     const handleSubmit = async (e)=>{
         e.preventDefault(); //This prevents the browser from auto reloading the page when the form is submitted, and to wait for the auth
 
@@ -24,16 +28,25 @@ const LoginPage = () =>{
         const userData={username: username, password:password};
         
         try{
-            login(userData);
-            navigate("/"); //we try to navigate to the home page first probably need to change at a later time
+            const loginRes= await login(userData);
+            console.log(loginRes);
+            if (loginRes.status==401){
+                navigate("/login");
+                setError(loginRes.message);
+            }else{
+                navigate("/"); //we try to navigate to the home page first probably need to change at a later time
+            }
         } catch (err){
-            console.log(err);
+            navigate("/login");
             setError('Invalid credentials, please try again!'); //different error handling
         }
     }
 
     return(
+        <>
         <div className="login-container">
+            <button className="back-button" onClick={handleBack}>← Back Home</button>
+
             <h2>Log In</h2>
             <form onSubmit={handleSubmit}>
 
@@ -62,6 +75,8 @@ const LoginPage = () =>{
 
             </form>
         </div>
+        </>
+        
     )
 }
 
