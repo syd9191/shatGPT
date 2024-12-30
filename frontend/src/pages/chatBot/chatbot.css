@@ -1,0 +1,114 @@
+/* Chatbot Page Styles */
+.chatbot-page {
+  font-family: 'Arial', sans-serif;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background-color: #343541; /* Dark background similar to ChatGPT's */
+  color: #d1d5db; /* Light gray text */
+}
+
+/* Header */
+.chatbot-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 20px;
+  background-color: #40414f; /* Slightly lighter dark tone */
+  color: white;
+  border-bottom: 1px solid #565869; /* Subtle border for separation */
+}
+
+.chatbot-header h1 {
+  font-size: 20px;
+  margin: 0;
+}
+
+.logout-button {
+  background-color: #d9534f; /* Subtle red for logout */
+  color: white;
+  border: none;
+  padding: 8px 15px;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.logout-button:hover {
+  background-color: #c9302c; /* Darker red on hover */
+}
+
+/* Chat Container */
+.chat-container {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 20px;
+}
+
+/* Chat Display */
+.chat-display {
+  flex: 1;
+  overflow-y: auto;
+  padding: 15px;
+  border-radius: 8px;
+  background-color: #40414f; /* Same tone as the header for continuity */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  margin-bottom: 15px;
+}
+
+.bot-reply, .tokens-used {
+  margin: 10px 0;
+  padding: 10px;
+  background-color: #50525e; /* Slightly lighter tone for replies */
+  border-radius: 8px;
+  color: #e9ecef; /* Slightly lighter text for readability */
+}
+
+.bot-reply p, .tokens-used p {
+  margin: 0;
+}
+
+/* Chat Input */
+.chat-input {
+  display: flex;
+  gap: 10px;
+  padding: 10px;
+  background-color: #40414f; /* Blends with the rest of the UI */
+  border-radius: 8px;
+}
+
+.chat-input input {
+  flex: 1;
+  padding: 10px;
+  background-color: #50525e; /* Input box color */
+  border: none;
+  border-radius: 8px;
+  color: white;
+  font-size: 16px;
+}
+
+.chat-input input::placeholder {
+  color: #9ca3af; /* Subtle placeholder text */
+}
+
+.chat-input input:focus {
+  outline: none;
+  border: 1px solid #10a37f; /* Green border on focus */
+}
+
+.chat-input button {
+  background-color: #10a37f; /* ChatGPT's signature green */
+  color: white;
+  border: none;
+  padding: 10px 15px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 16px;
+  transition: background-color 0.3s;
+}
+
+.chat-input button:hover {
+  background-color: #0e8c6f; /* Slightly darker green on hover */
+}
