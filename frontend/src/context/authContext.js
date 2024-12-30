@@ -35,6 +35,10 @@ export const AuthProvider = ({ children }) => {
 
   const signup=async (userDetails)=>{
     const res= await axios.post('http://127.0.0.1:3000/signup', userDetails);
+
+    //error propagation
+    return {status: res.status, 
+            message: res.data.message};
   }
 
   const value = { 

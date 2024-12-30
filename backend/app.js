@@ -1,10 +1,14 @@
+//required packages
 const express= require('express');
 const cors= require('cors');
 const axios = require('axios');
 const mongoose = require('mongoose');
+const bcrypt=require('bcrypt');
+
+
+//custom
 const {pingBackendServer, pingLLMServer} = require('./healthCheck.js');
-const User = require('./schemas/userDetails.js');
-const userDetailSchema=require('./schemas/userDetails.js');
+const userDetailModel=require('./schemas/userDetails.js');
 
 
 require('dotenv').config();
@@ -69,19 +73,25 @@ app.post('/api/chatbot', async (req, res) => {
 });
 
 //DB Methods: We do it in backend server like a boss
-app.post('/signup', (req, res)=>{
-    const userDetails=new userDetailSchema(req.body);
+app.post('/signup', async (req, res)=>{
+    const {username, password}=req.body;
+    try{
+        const userExists= await userDetailModel.findOne({username: username});
+        if (userExists){
+            return res.status(400).json({message:"Username already exists"})
+        }
 
-    userDetails.save()
-        .then(() =>{
-            console.log("New User Signup Successful!");
-            res.status(200)
-            .json({message: "User Signed up"});
-        })
-        .catch((err) =>{
-            console.error(err);
-            res.status(500).json({message: "Signup Failed"})
-        })
+        const hashedPw=await bcrypt.hash(password, 10);
+        const userDetails= new userDetailModel({username: username, 
+                                                password: hashedPw});
+
+        userDetails.save()
+        console.log("Successful User Signup");
+        res.status(200).json({message:"Successful User Signup"})
+    } catch (err){
+        console.error(err);
+        res.status(500).json({ message: "Signup Failed", error: err.message });
+    }
     });
 
 

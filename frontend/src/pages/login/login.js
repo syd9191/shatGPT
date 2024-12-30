@@ -56,7 +56,7 @@ const LoginPage = () =>{
                 onChange={(e)=>setPassword(e.target.value)}/>
             </div>
 
-            {error && <p classNameName="error">{error}</p>} {/* Display error message if any */}
+            {error && <p className="error">{error}</p>} {/* Display error message if any */}
 
             <button type="submit" className="btn btn-primary">Log In</button>
 

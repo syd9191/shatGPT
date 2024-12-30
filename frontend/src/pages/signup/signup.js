@@ -24,9 +24,16 @@ const SignupPage = () =>{
         const userData={username:username.toString(), password:password.toString()};
         
         try{
-            signup(userData);
-            console.log("New User Signup");
-            navigate("/login"); //after signing up, let the user login
+            const res= await signup(userData);
+            if (res.status!==200){
+                //error propagation from backend server
+                console.log(res.message);
+                setError(res.message);
+            } else{
+                console.log("New User Signup");
+                navigate("/login"); //after signing up, let the user login
+            }
+            
         } catch (err){
             console.log(err);
             setError('Something went wrong, please try again!'); //different error handling
@@ -57,7 +64,7 @@ const SignupPage = () =>{
                 onChange={(e)=>setPassword(e.target.value)}/>
             </div>
 
-            {error && <p classNameName="error">{error}</p>} {/* Display error message if any */}
+            {error && <p className="error">{error}</p>} {/* Display error message if any */}
 
             <button type="submit" className="btn btn-primary">Log In</button>
 
