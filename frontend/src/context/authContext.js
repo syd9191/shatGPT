@@ -1,6 +1,8 @@
 import React, { useEffect, useState, useContext, createContext } from 'react';
+import axios from 'axios';
 
 const authContext = createContext();
+
 
 export const useAuth = () => {
   return useContext(authContext); 
@@ -21,7 +23,7 @@ export const AuthProvider = ({ children }) => {
     setUser(userData); 
 
     console.log(userData);
-    console.log( JSON.stringify(userData));
+    console.log(JSON.stringify(userData));
 
     localStorage.setItem('user', JSON.stringify(userData)); 
   };
@@ -31,10 +33,15 @@ export const AuthProvider = ({ children }) => {
     localStorage.removeItem('user'); 
   };
 
+  const signup=async (userDetails)=>{
+    const res= await axios.post('http://127.0.0.1:3000/signup', userDetails);
+  }
+
   const value = { 
     user, 
     login, 
-    logout 
+    logout,
+    signup
   }; 
 
   return <authContext.Provider value={value}>{children}</authContext.Provider>;

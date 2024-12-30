@@ -12,11 +12,9 @@ const ChatbotPage = () => {
   const sendButtonRef = useRef(null);
 
 
-
-
   useEffect(() => {
     const handleKeyDown = (e) => {
-      if (e.key === 'Enter' && !isSending) {
+      if (e.key === 'Enter' && !isSending){
         e.preventDefault();  // Prevent the default Enter key behavior
         sendButtonRef.current.click();  // Simulate a click on the send button
       }
@@ -32,13 +30,10 @@ const ChatbotPage = () => {
   
   const sendUserMessage = async () => {
     try {
-      console.log(userMessage);
-
       if (!userMessage.trim()) {
         console.log("Message Empty");
         return;
       }
-
 
       console.log("Sending message from REACT:", userMessage);  // Log the message
       setIsSending(true);
@@ -48,12 +43,16 @@ const ChatbotPage = () => {
       setGptReply(chatResponse.data.replyDetailsObj.content);
       setTokensUsed(chatResponse.data.tokenUsageObj.total_tokens);
 
-      console.log(gptReply);
-      console.log(tokensUsed);
+      console.log('GPT REPLY: ' , chatResponse.data.replyDetailsObj.content);
+      console.log('Tokens Used', tokensUsed);
 
-    } catch (error) {
+    } 
+  
+    catch (error) {
       console.error("Error sending message:", error);
-    } finally {
+    } 
+    
+    finally {
       setIsSending(false);
       setUserMessage('');
     }

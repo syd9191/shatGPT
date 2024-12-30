@@ -10,15 +10,11 @@ const userDetailSchema=require('./schemas/userDetails.js');
 require('dotenv').config();
 
 
-
-
-
 const port = 3000; //abstract this to config file at a later time
 const app= express();
 const DBURI= process.env.DBURI;
 
 
-    
 
 //middleware
 app.use(express.json());
@@ -68,7 +64,6 @@ app.post('/api/chatbot', async (req, res) => {
     const userMessage=req.body;
     console.log("Backend Server received userMessage: ", userMessage.message);
 
-
     const chatResponse= await getLLMreply(userMessage);
     res.json({replyDetailsObj: chatResponse.message, tokenUsageObj: chatResponse.token_usage});
 });
@@ -76,9 +71,17 @@ app.post('/api/chatbot', async (req, res) => {
 //DB Methods: We do it in backend server like a boss
 app.post('/signup', (req, res)=>{
     const userDetails=new userDetailSchema(req.body);
-    console.log(userDetails);
-    userDetails.save().then(res.send(userDetails));
 
-});
+    userDetails.save()
+        .then(() =>{
+            console.log("New User Signup Successful!");
+            res.status(200)
+            .json({message: "User Signed up"});
+        })
+        .catch((err) =>{
+            console.error(err);
+            res.status(500).json({message: "Signup Failed"})
+        })
+    });
 
 
