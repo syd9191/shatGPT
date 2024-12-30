@@ -12,7 +12,7 @@ const UserLanding = ()=>{
     };
 
     const navigateToSignUp=()=>{
-        navigate('/signup') //TODO: UP THE DB THEN DO THIS
+        navigate('/signup');
         return;
     };
 

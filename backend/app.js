@@ -108,7 +108,7 @@ app.post('/login', async (req, res)=>{
             res.status(200).json({ status: 200, message: "Successful User Login" }); // Corrected message
         } else {
             console.log("Wrong Password Entered");
-            res.status(401).json({ status: 401, message: "Wrong Password Entered" }); // Changed to 401 Unauthorized
+            res.status(401).json({ status: 401, message: "Wrong Password Entered" }); 
         }
     } catch (err){
         console.error(err);

@@ -25,10 +25,10 @@ const SignupPage = () =>{
             return;
         }
 
-        const userData={username:username.toString(), password:password.toString()};
+        const userDetails={username:username.toString(), password:password.toString()};
         
         try {
-            const res = await signup(userData);
+            const res = await signup(userDetails);
             console.log(res);
             if (res.status !== 200) {
                 setError(res.message); 

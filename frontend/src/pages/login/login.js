@@ -30,7 +30,7 @@ const LoginPage = () =>{
         try{
             const loginRes= await login(userData);
             console.log(loginRes);
-            if (loginRes.status==401){
+            if (loginRes.status===401){
                 navigate("/login");
                 setError(loginRes.message);
             }else{
