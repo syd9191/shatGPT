@@ -23,20 +23,18 @@ const SignupPage = () =>{
 
         const userData={username:username.toString(), password:password.toString()};
         
-        try{
-            const res= await signup(userData);
-            if (res.status!==200){
-                //error propagation from backend server
-                console.log(res.message);
-                setError(res.message);
-            } else{
+        try {
+            const res = await signup(userData);
+            console.log(res);
+            if (res.status !== 200) {
+                setError(res.message); 
+            } else {
                 console.log("New User Signup");
-                navigate("/login"); //after signing up, let the user login
+                navigate("/login");
             }
-            
-        } catch (err){
+        } catch (err) {
             console.log(err);
-            setError('Something went wrong, please try again!'); //different error handling
+            setError(err.message);
         }
     }
 

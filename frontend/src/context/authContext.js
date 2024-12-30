@@ -33,13 +33,16 @@ export const AuthProvider = ({ children }) => {
     localStorage.removeItem('user'); 
   };
 
-  const signup=async (userDetails)=>{
-    const res= await axios.post('http://127.0.0.1:3000/signup', userDetails);
-
-    //error propagation
-    return {status: res.status, 
-            message: res.data.message};
-  }
+  const signup = async (userData) => {
+    try{
+      const response = await axios.post('http://127.0.0.1:3000/signup', userData);
+      console.log(response.data);
+      return response.data; 
+    } catch (error){
+        return {status: error.response.data.status, message: error.response.data.message}; 
+    }
+    
+};
 
   const value = { 
     user, 

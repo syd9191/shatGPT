@@ -78,19 +78,18 @@ app.post('/signup', async (req, res)=>{
     try{
         const userExists= await userDetailModel.findOne({username: username});
         if (userExists){
-            return res.status(400).json({message:"Username already exists"})
+            return res.status(400).json({status:400, message:"Username already exists"})
         }
 
         const hashedPw=await bcrypt.hash(password, 10);
         const userDetails= new userDetailModel({username: username, 
                                                 password: hashedPw});
-
         userDetails.save()
         console.log("Successful User Signup");
-        res.status(200).json({message:"Successful User Signup"})
+        res.status(200).json({status:200, message:"Successful User Signup"})
     } catch (err){
         console.error(err);
-        res.status(500).json({ message: "Signup Failed", error: err.message });
+        res.status(500).json({status:500,message: "Signup Failed"});
     }
     });
 
