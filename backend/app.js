@@ -8,7 +8,10 @@ const bcrypt=require('bcrypt');
 
 //custom
 const {pingBackendServer, pingLLMServer} = require('./healthCheck.js');
+
+//Schemas
 const userDetailModel=require('./schemas/userDetails.js');
+const conversationHistoryModel=require('./schemas/conversationHistory.js');
 
 
 require('dotenv').config();
@@ -84,9 +87,16 @@ app.post('/signup', async (req, res)=>{
         const hashedPw=await bcrypt.hash(password, 10);
         const userDetails= new userDetailModel({username: username, 
                                                 password: hashedPw});
-        userDetails.save()
+        await userDetails.save();
+        //create a new conversation for each new user
+        const getUser= await userDetailModel.findOne({username: username});
+        console.log(getUser);
+        const newConversation=new conversationHistoryModel({
+            user_id:getUser._id
+        })
+        newConversation.save();
         console.log("Backend Server: Successful User Sign Up");
-        res.status(200).json({status:200, message:"Successful User Signup"})
+        res.status(200).json({status:200, message:"Successful User Signup"});
     } catch (err){
         console.error(err);
         res.status(500).json({status:500,message: "Signup Failed"});
@@ -97,6 +107,8 @@ app.post('/login', async (req, res)=>{
     const {username, password}=req.body;
     try{
         const existingUser= await userDetailModel.findOne({username: username});
+        console.log(existingUser);
+
         if (!existingUser){
             return res.status(400).json({status:400, message:"This Username does not exist"})
         }
