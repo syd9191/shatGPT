@@ -8,18 +8,39 @@ const ChatbotPage = () => {
   const [gptReply, setGptReply] = useState('');
   const [tokensUsed, setTokensUsed] = useState(0);
   const [isSending, setIsSending]= useState(false);
-  const { logout } = useAuth();
+  const [conversationHistory, setConversationHistory]= useState(null);
+  const {user, logout} = useAuth();
   const sendButtonRef = useRef(null);
+
+  useEffect(() => {
+    const fetchUserConversation = async () => {
+      try {
+        const response = await axios.post('http://127.0.0.1:3000/get-user-conversation', {
+          user_id: user.user_id,
+        });
+  
+        if (response.data) {
+          console.log(response.data);
+          setConversationHistory(response.data.conversationHistory); // Assuming response.data is the conversation history
+          console.log("Conversation History:", response.data.conversationHistory);
+        }
+      } catch (error) {
+        console.error("Error fetching user conversation:", error);
+      }
+    };
+  
+    fetchUserConversation();
+  }, [user.user_id]); // Include dependencies
 
 
   useEffect(() => {
     const handleKeyDown = (e) => {
       if (e.key === 'Enter' && !isSending){
         e.preventDefault();  // Prevent the default Enter key behavior
-        sendButtonRef.current.click();  // Simulate a click on the send button
+        sendButtonRef.current?.click();  // Simulate a click on the send button
       }
     };
-  
+
     window.addEventListener("keydown", handleKeyDown);
   
     return () => {
@@ -36,15 +57,24 @@ const ChatbotPage = () => {
       }
 
       console.log("Sending message from REACT:", userMessage);  // Log the message
+      const newConversationHistory=conversationHistory;
+      newConversationHistory.push({"role": "user", "content": userMessage});
+      console.log(newConversationHistory);
       setIsSending(true);
       
 
-      const chatResponse = await axios.post('http://127.0.0.1:3000/api/chatbot', { message: userMessage });
+      const chatResponse = await axios.post('http://127.0.0.1:3000/api/chatbot', {message: userMessage});
+
       setGptReply(chatResponse.data.replyDetailsObj.content);
       setTokensUsed(chatResponse.data.tokenUsageObj.total_tokens);
 
+      newConversationHistory.push({"role": "system", "content": chatResponse.data.replyDetailsObj.content});
+    
+
       console.log('GPT REPLY: ' , chatResponse.data.replyDetailsObj.content);
       console.log('Tokens Used', tokensUsed);
+      console.log(newConversationHistory);
+      
 
     } 
   

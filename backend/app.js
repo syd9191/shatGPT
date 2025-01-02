@@ -117,7 +117,7 @@ app.post('/login', async (req, res)=>{
 
         if (correctPassword) {
             console.log("Backend Server: User Sign In Successful");
-            res.status(200).json({ status: 200, message: "Successful User Login" }); // Corrected message
+            res.status(200).json({ status: 200, message: "Successful User Login", user_id: existingUser._id}); // Corrected message
         } else {
             console.log("Wrong Password Entered");
             res.status(401).json({ status: 401, message: "Wrong Password Entered" }); 
@@ -125,6 +125,29 @@ app.post('/login', async (req, res)=>{
     } catch (err){
         console.error(err);
         res.status(500).json({status:500,message: "Login Failed"});
+    }
+});
+
+app.post('/get-user-conversation', async (req, res)=>{
+    const {user_id}=req.body;
+    console.log(user_id);
+    
+    try{
+        const conversationHisory=await conversationHistoryModel.findOne({
+            user_id: new mongoose.Types.ObjectId(user_id)
+        });
+
+        res.status(200).json(
+            {status:200, 
+             message: "Successful Retrieval of Conversation History", 
+             user_id:user_id, 
+             conversationHistory: conversationHisory.conversation})
+    } catch (err){
+        console.error(err);
+        res.status(500).json({
+            status:500,
+            message: "UnSuccessful Retrieval of Conversation History"
+        })
     }
 });
 
