@@ -20,7 +20,6 @@ const ChatbotPage = () => {
         });
   
         if (response.data) {
-          console.log(response.data);
           setConversationHistory(response.data.conversationHistory); // Assuming response.data is the conversation history
           console.log("Conversation History:", response.data.conversationHistory);
         }
@@ -58,20 +57,19 @@ const ChatbotPage = () => {
 
       console.log("Sending message from REACT:", userMessage);  // Log the message
       const newConversationHistory=conversationHistory;
-      newConversationHistory.push({"role": "user", "content": userMessage});
+      newConversationHistory.conversation.push({"role": "user", "content": userMessage});
       console.log(newConversationHistory);
       setIsSending(true);
       
 
-      const chatResponse = await axios.post('http://127.0.0.1:3000/api/chatbot', {message: userMessage});
+      const chatResponse = await axios.post('http://127.0.0.1:3000/api/chatbot', {conversationHistory: newConversationHistory});
+      console.log("Chat Response:", chatResponse.data);
 
-      setGptReply(chatResponse.data.replyDetailsObj.content);
-      setTokensUsed(chatResponse.data.tokenUsageObj.total_tokens);
+      setGptReply(chatResponse.data.latest_message);
+      setTokensUsed(chatResponse.data.total_tokens);
 
-      newConversationHistory.push({"role": "system", "content": chatResponse.data.replyDetailsObj.content});
-    
 
-      console.log('GPT REPLY: ' , chatResponse.data.replyDetailsObj.content);
+      console.log('GPT REPLY: ' , chatResponse.data.latest_message);
       console.log('Tokens Used', tokensUsed);
       console.log(newConversationHistory);
       
@@ -98,7 +96,7 @@ const ChatbotPage = () => {
       <div className="chat-container">
         <div className="chat-display">
           <div className="bot-reply">
-            <p><strong>Bot:</strong> {gptReply || "No reply yet."}</p>
+            <p><strong>Bot:</strong> { gptReply || "No reply yet."}</p>
           </div>
           <div className="tokens-used">
             <p><strong>Tokens Used:</strong> {tokensUsed || "No tokens used yet."}</p>

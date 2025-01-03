@@ -20,11 +20,6 @@ const conversationHistorySchema = new Schema({
                 content:{
                     type:String, 
                     required:true
-                },
-                
-                tokens:{
-                    type:Number,
-                    required:true
                 }
             }
         ], 

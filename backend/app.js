@@ -57,7 +57,7 @@ const getLLMreply= async (userMessage)=>{
 
         const reply= await axios.post("http://127.0.0.1:5000/chatbot/generate", userMessage);
 
-        console.log('backend server received reply: ', reply.data.message.content);
+        console.log('backend server received reply: ', reply.data);
 
         return reply.data; //this is the whole json object
         
@@ -69,10 +69,10 @@ const getLLMreply= async (userMessage)=>{
 //start with placeholder post req for main chatbot
 app.post('/api/chatbot', async (req, res) => {
     const userMessage=req.body;
-    console.log("Backend Server received userMessage: ", userMessage.message);
+    console.log("Backend Server received userMessage: ", userMessage.conversationHistory);
 
-    const chatResponse= await getLLMreply(userMessage);
-    res.json({replyDetailsObj: chatResponse.message, tokenUsageObj: chatResponse.token_usage});
+    const chatResponse= await getLLMreply(userMessage.conversationHistory);
+    res.json(chatResponse);
 });
 
 //DB Methods: We do it in backend server like a boss
@@ -141,7 +141,7 @@ app.post('/get-user-conversation', async (req, res)=>{
             {status:200, 
              message: "Successful Retrieval of Conversation History", 
              user_id:user_id, 
-             conversationHistory: conversationHisory.conversation})
+             conversationHistory: conversationHisory})
     } catch (err){
         console.error(err);
         res.status(500).json({
