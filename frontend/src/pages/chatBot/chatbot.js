@@ -56,8 +56,10 @@ const ChatbotPage = () => {
       }
 
       console.log("Sending message from REACT:", userMessage);  // Log the message
-      const newConversationHistory=conversationHistory;
-      newConversationHistory.conversation.push({"role": "user", "content": userMessage});
+      const newConversationHistory = {
+        ...conversationHistory, 
+        conversation: [...conversationHistory.conversation, { "role": "user", "content": userMessage }]
+      };
       console.log(newConversationHistory);
       setIsSending(true);
       
@@ -67,13 +69,10 @@ const ChatbotPage = () => {
 
       setGptReply(chatResponse.data.latest_message);
       setTokensUsed(chatResponse.data.total_tokens);
-
+      setConversationHistory(chatResponse.data);
 
       console.log('GPT REPLY: ' , chatResponse.data.latest_message);
       console.log('Tokens Used', tokensUsed);
-      console.log(newConversationHistory);
-      
-
     } 
   
     catch (error) {

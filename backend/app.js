@@ -72,6 +72,7 @@ app.post('/api/chatbot', async (req, res) => {
     console.log("Backend Server received userMessage: ", userMessage.conversationHistory);
 
     const chatResponse= await getLLMreply(userMessage.conversationHistory);
+    console.log("LLM SERVER REPLY: ", chatResponse);
     res.json(chatResponse);
 });
 
