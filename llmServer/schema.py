@@ -1,4 +1,6 @@
-from pydantic import BaseModel
+from pydantic import BaseModel, Field
+from typing import List, Optional
+from datetime import datetime
 
 class ChatCompletionMessage(BaseModel):
     content: str
@@ -12,8 +14,14 @@ class chatResponse(BaseModel):
     message: ChatCompletionMessage
     total_tokens: int
 
+class Message(BaseModel):
+    role: str = Field(..., description="Role of the message sender",  pattern="^(system|user|assistant)$")
+    content: str = Field(..., description="Content of the message")
 
-class userMessage(BaseModel):
-    message: str
-
-
+class ConversationHistory(BaseModel):
+    user_id: str = Field(..., description="Unique identifier of the user")
+    conversation: List[Message] = Field(default=[], description="List of conversation messages")
+    totalTokens: int = Field(default=0, description="Total tokens used in the conversation")
+    lastUpdated: Optional[datetime] = Field(None, description="Timestamp of the last update")
+    latestMessage: Optional[str] = Field(default="", description="Content of the latest message")
+    createdAt: Optional[datetime] = Field(default_factory=datetime.utcnow, description="Timestamp of when the conversation was created")

@@ -23,10 +23,16 @@ export const AuthProvider = ({ children }) => {
     try{
       const response = await axios.post('http://127.0.0.1:3000/login', userData);
       console.log(response.data);
-      setUser(userData); 
-      localStorage.setItem('user', JSON.stringify(userData)); 
-      return response.data;
+
+      const newUser = {
+        user: userData.username,
+        password: userData.password,
+        user_id: response.data.user_id
+      }
       
+      setUser(newUser); 
+      localStorage.setItem('user', JSON.stringify(newUser)); 
+      return response.data;
     } catch (error){
       return {status: error.response.data.status, message: error.response.data.message};
     }
