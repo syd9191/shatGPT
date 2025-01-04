@@ -1,114 +1,175 @@
-/* Chatbot Page Styles */
+/* Overall Chatbot Page Styles */
 .chatbot-page {
-  font-family: 'Arial', sans-serif;
-  height: 100vh;
   display: flex;
   flex-direction: column;
-  background-color: #343541; /* Dark background similar to ChatGPT's */
-  color: #d1d5db; /* Light gray text */
+  justify-content: flex-start;
+  align-items: center;
+  height: 100vh;
+  background-color: #1f1f1f; /* Dark background for modern industrial feel */
+  font-family: 'Arial', sans-serif;
+  color: #eaeaea; /* Soft off-white text */
+  padding: 20px;
+  box-sizing: border-box;
+  overflow: hidden; /* Prevent overall page overflow */
 }
 
-/* Header */
+/* Header Section */
 .chatbot-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 10px 20px;
-  background-color: #40414f; /* Slightly lighter dark tone */
-  color: white;
-  border-bottom: 1px solid #565869; /* Subtle border for separation */
+  width: 100%;
+  padding: 20px;
+  background-color: #333; /* Darker header background for contrast */
+  color: #fff;
+  text-align: center;
+  position: relative;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.6);
 }
 
 .chatbot-header h1 {
-  font-size: 20px;
+  font-size: 2.4rem;
   margin: 0;
+  letter-spacing: 2px;
 }
 
 .logout-button {
-  background-color: #d9534f; /* Subtle red for logout */
-  color: white;
+  position: absolute;
+  top: 10%;
+  right: 30px;
+  padding: 12px 18px;
+  background-color: #00b4d8; /* Bright teal for action button */
+  color: #fff;
   border: none;
-  padding: 8px 15px;
-  border-radius: 5px;
+  border-radius: 6px;
   cursor: pointer;
-  transition: background-color 0.3s;
+  transition: background-color 0.3s ease;
 }
 
 .logout-button:hover {
-  background-color: #c9302c; /* Darker red on hover */
+  background-color: #0098b7; /* Darker teal on hover */
 }
 
 /* Chat Container */
 .chat-container {
-  flex: 1;
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
+  justify-content: flex-end;
+  width: 100%;
+  max-width: 850px;
+  height: calc(100% - 100px); /* Adjust to leave space for the header */
+  margin-top: 20px;
   padding: 20px;
+  overflow: hidden; /* Prevent overflow for proper scrolling within the chat */
 }
 
 /* Chat Display */
 .chat-display {
   flex: 1;
-  overflow-y: auto;
-  padding: 15px;
-  border-radius: 8px;
-  background-color: #40414f; /* Same tone as the header for continuity */
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  margin-bottom: 30px;
+  padding-right: 15px;
+  overflow-y: auto; /* Enable scrolling within the chat display */
+  max-height: calc(100vh - 200px); /* Allow scroll when content exceeds this height */
+}
+
+.chat-display div {
   margin-bottom: 15px;
 }
 
-.bot-reply, .tokens-used {
-  margin: 10px 0;
-  padding: 10px;
-  background-color: #50525e; /* Slightly lighter tone for replies */
-  border-radius: 8px;
-  color: #e9ecef; /* Slightly lighter text for readability */
-}
-
-.bot-reply p, .tokens-used p {
+.chat-display p {
   margin: 0;
+  padding: 12px 18px;
+  border-radius: 8px;
+  max-width: 75%;
+  word-wrap: break-word;
 }
 
-/* Chat Input */
+.chat-display .user {
+  background-color: #4f5d75; /* Muted blue for user messages */
+  color: #eaeaea;
+  align-self: flex-start;
+  box-shadow: 3px 3px 6px rgba(0, 0, 0, 0.3);
+}
+
+.chat-display .bot {
+  background-color: #333333; /* Darker background for bot messages */
+  color: #f4f4f9;
+  align-self: flex-end;
+  box-shadow: 3px 3px 6px rgba(0, 0, 0, 0.3);
+}
+
+.chat-display strong {
+  color: #00b4d8; /* Teal for message roles */
+}
+
+/* Tokens Used Display */
+.tokens-used {
+  text-align: center;
+  font-size: 0.9rem;
+  color: #eaeaea;
+  opacity: 0.8;
+}
+
+.tokens-used strong {
+  font-weight: bold;
+  color: #00b4d8; /* Teal for highlighting tokens */
+}
+
+/* Chat Input Area */
 .chat-input {
   display: flex;
-  gap: 10px;
-  padding: 10px;
-  background-color: #40414f; /* Blends with the rest of the UI */
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  padding: 15px;
+  background-color: #383838;
   border-radius: 8px;
+  box-shadow: 0 -4px 10px rgba(0, 0, 0, 0.3);
 }
 
 .chat-input input {
-  flex: 1;
-  padding: 10px;
-  background-color: #50525e; /* Input box color */
-  border: none;
+  width: 80%;
+  padding: 14px 20px;
   border-radius: 8px;
-  color: white;
-  font-size: 16px;
-}
-
-.chat-input input::placeholder {
-  color: #9ca3af; /* Subtle placeholder text */
+  border: none;
+  background-color: #505050;
+  color: #f4f4f9;
+  font-size: 1rem;
+  outline: none;
+  transition: background-color 0.3s ease;
 }
 
 .chat-input input:focus {
-  outline: none;
-  border: 1px solid #10a37f; /* Green border on focus */
+  background-color: #707070; /* Slightly lighter on focus */
 }
 
 .chat-input button {
-  background-color: #10a37f; /* ChatGPT's signature green */
-  color: white;
+  background-color: #00b4d8; /* Teal for action button */
+  color: #fff;
   border: none;
-  padding: 10px 15px;
   border-radius: 8px;
+  padding: 12px 18px;
   cursor: pointer;
-  font-size: 16px;
-  transition: background-color 0.3s;
+  transition: background-color 0.3s ease;
 }
 
 .chat-input button:hover {
-  background-color: #0e8c6f; /* Slightly darker green on hover */
+  background-color: #0098b7; /* Darker teal on hover */
+}
+
+/* Responsive Design for smaller screens */
+@media (max-width: 768px) {
+  .chatbot-page {
+    padding: 10px;
+  }
+
+  .chat-container {
+    padding: 15px;
+    height: calc(100vh - 80px); /* Adjust height for smaller screens */
+  }
+
+  .chat-input input {
+    width: 70%;
+  }
+
+  .chat-input button {
+    width: 25%;
+  }
 }

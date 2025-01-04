@@ -8,7 +8,7 @@ const ChatbotPage = () => {
   const [gptReply, setGptReply] = useState('');
   const [tokensUsed, setTokensUsed] = useState(0);
   const [isSending, setIsSending]= useState(false);
-  const [conversationHistory, setConversationHistory]= useState(null);
+  const [conversationHistory, setConversationHistory]= useState([]);
   const {user, logout} = useAuth();
   const sendButtonRef = useRef(null);
 
@@ -22,6 +22,8 @@ const ChatbotPage = () => {
         if (response.data) {
           setConversationHistory(response.data.conversationHistory); // Assuming response.data is the conversation history
           console.log("Conversation History:", response.data.conversationHistory);
+    
+          setTokensUsed(response.data.conversationHistory.totalTokens);
         }
       } catch (error) {
         console.error("Error fetching user conversation:", error);
@@ -95,14 +97,23 @@ const ChatbotPage = () => {
       </header>
 
       <div className="chat-container">
-        <div className="chat-display">
-          <div className="bot-reply">
-            <p><strong>Bot:</strong> { gptReply || "No reply yet."}</p>
-          </div>
-          <div className="tokens-used">
-            <p><strong>Tokens Used:</strong> {tokensUsed || "No tokens used yet."}</p>
-          </div>
+      <div className="chat-display">
+        {/* Render conversation history */}
+        {conversationHistory.conversation && conversationHistory.conversation.length > 0 ? (
+          conversationHistory.conversation.map((message, index) => (
+            <div key={index}>
+              <p>
+                <strong>{message.role}:</strong> {message.content}
+              </p>
+            </div>
+          ))
+        ) : (
+          <p>No conversation history available.</p>
+        )}
+        <div className="tokens-used">
+          <p><strong>Tokens Used:</strong> {tokensUsed || "No tokens used yet."}</p>
         </div>
+      </div>
 
         <div className="chat-input">
           <input
