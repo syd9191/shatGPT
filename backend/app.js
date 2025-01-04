@@ -71,7 +71,16 @@ app.post('/api/chatbot', async (req, res) => {
     const userMessage=req.body;
     console.log("Backend Server received userMessage: ", userMessage.conversationHistory);
 
+    const filter={user_id:userMessage.conversationHistory.user_id};
+    const newConversationHistory=userMessage.conversationHistory
+    const convHist= await conversationHistoryModel.findOneAndUpdate(filter, userMessage.conversationHistory);
+    console.log("DB received userMessage: ", convHist);
+
     const chatResponse= await getLLMreply(userMessage.conversationHistory);
+    const updatedFilter={user_id:userMessage.conversationHistory.user_id};
+    const updatedConvHist= await conversationHistoryModel.findOneAndUpdate(updatedFilter, chatResponse);
+    console.log("DB received userMessage: ", updatedConvHist);
+    
     console.log("LLM SERVER REPLY: ", chatResponse);
     res.json(chatResponse);
 });
@@ -137,15 +146,16 @@ app.post('/get-user-conversation', async (req, res)=>{
     console.log(user_id);
     
     try{
-        const conversationHisory=await conversationHistoryModel.findOne({
+        const conversationHistory=await conversationHistoryModel.findOne({
             user_id: new mongoose.Types.ObjectId(user_id)
         });
+        console.log("Conversation History Fetched From DB: ", conversationHistory);
 
         res.status(200).json(
             {status:200, 
              message: "Successful Retrieval of Conversation History", 
              user_id:user_id, 
-             conversationHistory: conversationHisory})
+             conversationHistory: conversationHistory})
     } catch (err){
         console.error(err);
         res.status(500).json({
