@@ -1,6 +1,7 @@
 import React, { useRef, useEffect, useState } from 'react';
 import axios from 'axios';
 import { useAuth } from '../../context/authContext';
+import ConfirmationWarning from '../../components/ConfirmationWarning/confirmationWarning';
 import './chatbot.css';
 
 const ChatbotPage = () => {
@@ -9,6 +10,8 @@ const ChatbotPage = () => {
   const [tokensUsed, setTokensUsed] = useState(0);
   const [isSending, setIsSending]= useState(false);
   const [conversationHistory, setConversationHistory]= useState([]);
+  const [warningVisible, setWarningVisible] = useState(false);
+
   const {user, logout} = useAuth();
   const sendButtonRef = useRef(null);
 
@@ -82,19 +85,52 @@ const ChatbotPage = () => {
     catch (error) {
       console.error("Error sending message:", error);
     } 
-    
     finally {
       setIsSending(false);
       setUserMessage('');
     }
   };
 
+  const handleClearContext = ()=>{
+    setConversationHistory({
+      conversation: [], 
+      createdAt: conversationHistory.createdAt,
+      lastUpdated: new Date().toISOString(),
+      totalTokens: 0,
+      user_id: conversationHistory.user_id,
+      __v: conversationHistory.__v, 
+      _id: conversationHistory._id
+    });
+    setTokensUsed(conversationHistory.totalTokens);
+    console.log("Conversational Context RESET: ", conversationHistory);
+    hideWarning();
+  };
+
+  const showWarning = ()=>{
+    setWarningVisible(true);
+  };
+
+  const hideWarning = ()=>{
+    setWarningVisible(false);
+  };
+
+  const warningText="Are You Sure? This Conversation will be ERASED!";
+
   return (
     <div className="chatbot-page">
       <header className="chatbot-header">
         <h1>ShatGPT</h1>
         <button className="logout-button" onClick={logout}>Log Out</button>
+        <button className="clear-context" onClick={showWarning}>clear context</button>
       </header>
+
+      {warningVisible && (
+        <ConfirmationWarning
+        handleClearContext={handleClearContext}
+        hideWarning={hideWarning}
+        warningText={warningText}></ConfirmationWarning>
+        
+      )}
 
       <div className="chat-container">
       <div className="chat-display">

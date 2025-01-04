@@ -35,7 +35,7 @@ async def chatBot(conversationHistory: ConversationHistory):
             api_key=api_key
         )
         completion = client.chat.completions.create(
-            model="gpt-o1",
+            model="gpt-4o-mini",
             store=True,
             messages=conversationHistory.conversation)
 
