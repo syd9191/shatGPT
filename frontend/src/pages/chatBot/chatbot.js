@@ -101,7 +101,9 @@ const ChatbotPage = () => {
       __v: conversationHistory.__v, 
       _id: conversationHistory._id
     });
-    setTokensUsed(conversationHistory.totalTokens);
+
+  
+    setTokensUsed(0);
     console.log("Conversational Context RESET: ", conversationHistory);
     hideWarning();
   };
