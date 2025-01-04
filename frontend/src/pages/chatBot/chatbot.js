@@ -58,20 +58,22 @@ const ChatbotPage = () => {
       console.log("Sending message from REACT:", userMessage);  // Log the message
       const newConversationHistory = {
         ...conversationHistory, 
-        conversation: [...conversationHistory.conversation, { "role": "user", "content": userMessage }]
+        conversation: [...conversationHistory.conversation, { "role": "user", "content": userMessage }],
+        latestMessage: userMessage,
+        lastUpdated: new Date().toISOString()
       };
-      console.log(newConversationHistory);
+      console.log('conversationHistory being sent: ', newConversationHistory);
       setIsSending(true);
       
 
       const chatResponse = await axios.post('http://127.0.0.1:3000/api/chatbot', {conversationHistory: newConversationHistory});
       console.log("Chat Response:", chatResponse.data);
 
-      setGptReply(chatResponse.data.latest_message);
-      setTokensUsed(chatResponse.data.total_tokens);
+      setGptReply(chatResponse.data.latestMessage);
+      setTokensUsed(chatResponse.data.totalTokens);
       setConversationHistory(chatResponse.data);
 
-      console.log('GPT REPLY: ' , chatResponse.data.latest_message);
+      console.log('GPT REPLY: ' , chatResponse.data.latestMessage);
       console.log('Tokens Used', tokensUsed);
     } 
   

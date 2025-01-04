@@ -57,7 +57,7 @@ const getLLMreply= async (userMessage)=>{
 
         const reply= await axios.post("http://127.0.0.1:5000/chatbot/generate", userMessage);
 
-        console.log('backend server received reply: ', reply.data);
+        console.log('backend server received obect from frontend: ', reply.data);
 
         return reply.data; //this is the whole json object
         
@@ -89,6 +89,7 @@ app.post('/signup', async (req, res)=>{
         const userDetails= new userDetailModel({username: username, 
                                                 password: hashedPw});
         await userDetails.save();
+
         //create a new conversation for each new user
         const getUser= await userDetailModel.findOne({username: username});
         console.log(getUser);
@@ -96,6 +97,8 @@ app.post('/signup', async (req, res)=>{
             user_id:getUser._id
         })
         newConversation.save();
+
+
         console.log("Backend Server: Successful User Sign Up");
         res.status(200).json({status:200, message:"Successful User Signup"});
     } catch (err){

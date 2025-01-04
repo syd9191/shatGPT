@@ -21,7 +21,7 @@ class Message(BaseModel):
 class ConversationHistory(BaseModel):
     user_id: str = Field(..., description="Unique identifier of the user")
     conversation: List[Message] = Field(default=[], description="List of conversation messages")
-    total_tokens: int = Field(default=0, description="Total tokens used in the conversation")
-    last_updated: Optional[datetime] = Field(None, description="Timestamp of the last update")
-    latest_message: Optional[str] = Field(default="", description="Content of the latest message")
-    created_at: Optional[datetime] = Field(default_factory=datetime.utcnow, description="Timestamp of when the conversation was created")
+    totalTokens: int = Field(default=0, description="Total tokens used in the conversation")
+    lastUpdated: Optional[datetime] = Field(None, description="Timestamp of the last update")
+    latestMessage: Optional[str] = Field(default="", description="Content of the latest message")
+    createdAt: Optional[datetime] = Field(default_factory=datetime.utcnow, description="Timestamp of when the conversation was created")

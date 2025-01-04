@@ -26,7 +26,7 @@ app.add_middleware(CORSMiddleware, allow_origins=['*'])
 async def health_check():
     return {'status': "LLM server healthy", 'message': "LLM Server is up and running"}
 
-    
+
 @app.post("/chatbot/generate")
 async def chatBot(conversationHistory: ConversationHistory):
     try:
@@ -46,9 +46,10 @@ async def chatBot(conversationHistory: ConversationHistory):
             "role": "assistant",
             "content": reply.content
         })
-        conversationHistory.total_tokens+=token_usage.total_tokens
-        conversationHistory.last_updated=datetime.now()
-        conversationHistory.latest_message=reply.content
+
+        conversationHistory.totalTokens+=token_usage.total_tokens
+        conversationHistory.latestMessage=reply.content
+        conversationHistory.lastUpdated=datetime.utcnow()
 
 
         print(dict(conversationHistory))
