@@ -128,8 +128,14 @@ const ChatbotPage = () => {
     <div className="chatbot-page">
       <header className="chatbot-header">
         <h1>ShatGPT</h1>
-        <button className="logout-button" onClick={logout}>Log Out</button>
-        <button className="clear-context" onClick={showWarning}>clear context</button>
+        <div>
+          <button className="logout-button" onClick={logout}>Log Out</button>
+        </div>
+        
+        <div className="tokens-used">
+          <p><strong>Tokens Used:</strong> {tokensUsed || "No tokens used yet."}</p>
+          <button className="clear-context" onClick={showWarning}>Clear Context </button>
+        </div>
       </header>
 
       {warningVisible && (
@@ -154,9 +160,6 @@ const ChatbotPage = () => {
         ) : (
           <p>No conversation history available.</p>
         )}
-        <div className="tokens-used">
-          <p><strong>Tokens Used:</strong> {tokensUsed || "No tokens used yet."}</p>
-        </div>
       </div>
 
         <div className="chat-input">
