@@ -1,16 +1,19 @@
 import React, { useRef, useEffect, useState } from 'react';
 import axios from 'axios';
 import { useAuth } from '../../context/authContext';
-import ConfirmationWarning from '../../components/ConfirmationWarning/confirmationWarning';
+import ChatbotHeader from '../../components/ChatbotHeader/chatbotHeader';
+import ChatContainer from '../../components/ChatContainer/chatContainer';
 import './chatbot.css';
 
 const ChatbotPage = () => {
   const [userMessage, setUserMessage] = useState('');
-  const [gptReply, setGptReply] = useState('');
   const [tokensUsed, setTokensUsed] = useState(0);
   const [isSending, setIsSending]= useState(false);
-  const [conversationHistory, setConversationHistory]= useState([]);
-  const [warningVisible, setWarningVisible] = useState(false);
+  const [conversationHistory, setConversationHistory]=useState([]);
+  const [contextWarningVisible, setContextWarningVisible]=useState(false);
+  const [logoutWarningVisible, setLogoutWarningVisible]=useState(false);
+  const [dropDownVisible, setDropDownVisible]= useState(false);
+
 
   const {user, logout} = useAuth();
   const sendButtonRef = useRef(null);
@@ -74,7 +77,6 @@ const ChatbotPage = () => {
       const chatResponse = await axios.post('http://127.0.0.1:3000/api/chatbot', {conversationHistory: newConversationHistory});
       console.log("Chat Response:", chatResponse.data);
 
-      setGptReply(chatResponse.data.latestMessage);
       setTokensUsed(chatResponse.data.totalTokens);
       setConversationHistory(chatResponse.data);
 
@@ -91,79 +93,81 @@ const ChatbotPage = () => {
     }
   };
 
-  const handleClearContext = ()=>{
-    setConversationHistory({
+  const handleClearContext = async()=>{
+    const clearedConversationhistory={
       conversation: [], 
       createdAt: conversationHistory.createdAt,
       lastUpdated: new Date().toISOString(),
       totalTokens: 0,
+      latestMessage: "",
       user_id: conversationHistory.user_id,
       __v: conversationHistory.__v, 
       _id: conversationHistory._id
-    });
-
-  
+    };
+    const response=await axios.post("http://127.0.0.1:3000/clear-conversation", {conversationHistory: clearedConversationhistory});
+    if (response.status===200){
+      setConversationHistory(clearedConversationhistory);
+    }else{
+      console.log(response.message);
+    }
+    
     setTokensUsed(0);
-    console.log("Conversational Context RESET: ", conversationHistory);
-    hideWarning();
+    console.log("Conversational Context RESET: ", clearedConversationhistory);
+    hideContextWarning();
   };
 
-  const showWarning = ()=>{
-    setWarningVisible(true);
+  const showContextWarning = ()=>{
+    setContextWarningVisible(true);
   };
 
-  const hideWarning = ()=>{
-    setWarningVisible(false);
+  const hideContextWarning = ()=>{
+    setContextWarningVisible(false);
   };
 
-  const warningText="Are You Sure? This Conversation will be ERASED!";
+  const showLogoutWarning = ()=>{
+    setLogoutWarningVisible(true);
+  };
+
+  const hideLogoutWarning = ()=>{
+    setLogoutWarningVisible(false);
+  };
+
+  const toggleDropDown=()=>{
+    setDropDownVisible(!dropDownVisible);
+  }
+
+  const handleProfileClick=()=>{
+    toggleDropDown();
+  };
+
+  const contextClearWarningText="Are You Sure? This Conversation will be ERASED!";
+  const logoutWarningText="Are you sure you want to Log Out?";
 
   return (
     <div className="chatbot-page">
-      <header className="chatbot-header">
-        <h1>ShatGPT</h1>
-        <button className="logout-button" onClick={logout}>Log Out</button>
-        <button className="clear-context" onClick={showWarning}>clear context</button>
-      </header>
-
-      {warningVisible && (
-        <ConfirmationWarning
-        handleClearContext={handleClearContext}
-        hideWarning={hideWarning}
-        warningText={warningText}></ConfirmationWarning>
-        
-      )}
-
-      <div className="chat-container">
-      <div className="chat-display">
-        {/* Render conversation history */}
-        {conversationHistory.conversation && conversationHistory.conversation.length > 0 ? (
-          conversationHistory.conversation.map((message, index) => (
-            <div key={index}>
-              <p>
-                <strong>{message.role}:</strong> {message.content}
-              </p>
-            </div>
-          ))
-        ) : (
-          <p>No conversation history available.</p>
-        )}
-        <div className="tokens-used">
-          <p><strong>Tokens Used:</strong> {tokensUsed || "No tokens used yet."}</p>
-        </div>
-      </div>
-
-        <div className="chat-input">
-          <input
-            type="text"
-            value={userMessage}
-            onChange={(e) => setUserMessage(e.target.value)}
-            placeholder="Type your message..."
-          />
-          <button onClick={sendUserMessage}
-          ref={sendButtonRef}>Send</button>
-        </div>
-      </div>
+      <ChatbotHeader
+       tokensUsed={tokensUsed}
+       dropDownVisible={dropDownVisible}
+       handleProfileClick={handleProfileClick}
+       showLogoutWarning={showLogoutWarning}
+       logoutWarningVisible={logoutWarningVisible}
+       logoutWarningText={logoutWarningText}
+       hideLogoutWarning={hideLogoutWarning}
+       logout={logout}
+       showContextWarning={showContextWarning}
+       contextWarningVisible={contextWarningVisible}
+       handleClearContext= {handleClearContext}
+       contextClearWarningText={contextClearWarningText}
+       hideContextWarning={hideContextWarning}
+      />
+  
+    <ChatContainer
+      conversationHistory={conversationHistory}
+      userMessage={userMessage}
+      setUserMessage={setUserMessage}
+      sendUserMessage={sendUserMessage}
+      sendButtonRef={sendButtonRef}
+    />
     </div>
   );
 };

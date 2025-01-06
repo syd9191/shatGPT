@@ -1,0 +1,32 @@
+.chat-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    width: 100%;
+    max-width: 850px;
+    height: calc(100% - 100px); /* Adjust to leave space for the header */
+    margin-top: 20px;
+    padding: 20px;
+    overflow: hidden; /* Prevent overflow for proper scrolling within the chat */
+  }
+
+  /* Chat Display */
+.chat-display {
+    flex: 1;
+    margin-bottom: 30px;
+    padding-right: 15px;
+    overflow-y: auto; /* Enable scrolling within the chat display */
+    max-height: calc(100vh - 200px); /* Allow scroll when content exceeds this height */
+  }
+  
+  /* Chat Input Area */
+  .chat-input {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    padding: 15px;
+    background-color: #383838;
+    border-radius: 8px;
+    box-shadow: 0 -4px 10px rgba(0, 0, 0, 0.3);
+  }

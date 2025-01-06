@@ -2,7 +2,7 @@ import React from 'react'
 import './confirmationWarning.css'
 
 
-const ConfirmationWarning = ({handleClearContext, hideWarning, warningText}) => {
+const ConfirmationWarning = ({yesButtonPress, noButtonPress, warningText, yesButtonText, noButtonText}) => {
     return (
       <div className="confirmation-warning">
         <div className="warning-text">
@@ -10,11 +10,11 @@ const ConfirmationWarning = ({handleClearContext, hideWarning, warningText}) => 
         </div>
   
         <div className="button-container">
-          <button className="confirm-yes" onClick={handleClearContext}>
-            Yes
+          <button className="confirm-yes" onClick={yesButtonPress}>
+            {yesButtonText}
           </button>
-          <button className="confirm-no" onClick={hideWarning}>
-            No
+          <button className="confirm-no" onClick={noButtonPress}>
+            {noButtonText}
           </button>
         </div>
       </div>

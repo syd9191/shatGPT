@@ -165,6 +165,28 @@ app.post('/get-user-conversation', async (req, res)=>{
     }
 });
 
+app.post('/clear-conversation', async (req, res)=>{
+    try{
+        const clearedConversationhistory=req.body.conversationHistory;
+        const filter={user_id:clearedConversationhistory.user_id}
+        const clearedDoc= await conversationHistoryModel.findOneAndUpdate(
+            filter, clearedConversationhistory
+        ).then(()=>{
+            console.log("Clear-conversation endpoint: Conversation Cleared");
+            res.status(200).json({
+                status:200,
+                message:"Conversation Clearing Successful"
+            });
+        });
+    }
+    catch (error){
+        console.error(error);
+        res.status(500).json({
+            status:500, 
+            message:"Conversation Clearing Unsuccessful, Internal Server Error"});
+    }
+});
+
 
 
 
