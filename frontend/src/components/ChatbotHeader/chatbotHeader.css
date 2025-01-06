@@ -36,12 +36,20 @@
   }
   
   .profile-dropdown p {
-    margin: 0;
-    padding: 5px 10px;
+    display: flex;
+    align-items: center; 
+    gap: 15px; 
+    padding: 10px 10px; 
     cursor: pointer;
+    transition: transform 0.2s ease; 
   }
   
+  
   .profile-dropdown p:hover {
-    background-color: #00bcd4;
+    transform:scale(1.15);
+  }
+
+  .profile-dropdown i {
+    font-size: 1.2rem; /* Adjust icon size */
   }
   

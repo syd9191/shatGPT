@@ -22,6 +22,7 @@ const ChatbotHeader=({
 
 )=>(
     <header className="chatbot-header">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
     <h1>ShatGPT</h1>
     <div>
       <div className="profile-section">
@@ -33,10 +34,10 @@ const ChatbotHeader=({
         />
         {dropDownVisible && (
           <div className="profile-dropdown">
-            <p>Your Profile</p>
-            <p>Settings</p>
-            <p onClick={showLogoutWarning}>Log Out</p>
-          </div>
+          <p><i className="fas fa-user"></i> Your Profile</p>
+          <p><i className="fas fa-cogs"></i> Settings</p>
+          <p onClick={showLogoutWarning}><i className="fas fa-sign-out-alt"></i> Log Out</p>
+        </div>
         )}
         {logoutWarningVisible && (
           <ConfirmationWarning
