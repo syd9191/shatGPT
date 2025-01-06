@@ -1,7 +1,8 @@
 import React, { useRef, useEffect, useState } from 'react';
 import axios from 'axios';
 import { useAuth } from '../../context/authContext';
-import ConfirmationWarning from '../../components/ConfirmationWarning/confirmationWarning';
+import ChatbotHeader from '../../components/ChatbotHeader/chatbotHeader';
+import ChatContainer from '../../components/ChatContainer/chatContainer';
 import './chatbot.css';
 
 const ChatbotPage = () => {
@@ -133,94 +134,40 @@ const ChatbotPage = () => {
 
   const toggleDropDown=()=>{
     setDropDownVisible(!dropDownVisible);
-    console.log("Drop Down Toggled");
   }
 
   const handleProfileClick=()=>{
-    console.log("Placeholder Profile Section");
     toggleDropDown();
   };
-
-
 
   const contextClearWarningText="Are You Sure? This Conversation will be ERASED!";
   const logoutWarningText="Are you sure you want to Log Out?";
 
   return (
     <div className="chatbot-page">
-      <header className="chatbot-header">
-        <h1>ShatGPT</h1>
-        <div>
-          <div className="profile-section">
-          <img
-            src="/user.png"
-            alt="Profile"
-            className="profile-picture"
-            onClick={handleProfileClick}
-          />
-          {dropDownVisible && (
-            <div className="profile-dropdown">
-              <p>Your Profile</p>
-              <p>Settings</p>
-              <p onClick={showLogoutWarning}>Log Out</p>
-            </div>
-          )}
-
-          {logoutWarningVisible && 
-          (
-            <ConfirmationWarning
-            yesButtonPress={logout}
-            noButtonPress={hideLogoutWarning}
-            warningText={logoutWarningText}
-            yesButtonText={"Log Out"}
-            noButtonText={"Cancel"}></ConfirmationWarning>
-          )}
-      </div>
-        </div>
-        
-        <div className="tokens-used">
-          <p><strong>Tokens Used:</strong> {tokensUsed || "No tokens used yet."}</p>
-          <button className="clear-context" onClick={showContextWarning}>Clear Context </button>
-        </div>
-      </header>
-
-      {contextWarningVisible && (
-        <ConfirmationWarning
-        yesButtonPress={handleClearContext}
-        noButtonPress={hideContextWarning}
-        warningText={contextClearWarningText}
-        yesButtonText={"Clear Context"}
-        noButtonText={"Cancel"}></ConfirmationWarning>
-        
-      )}
-
-      <div className="chat-container">
-      <div className="chat-display">
-        {/* Render conversation history */}
-        {conversationHistory.conversation && conversationHistory.conversation.length > 0 ? (
-          conversationHistory.conversation.map((message, index) => (
-            <div key={index}>
-              <p>
-                <strong>{message.role}:</strong> {message.content}
-              </p>
-            </div>
-          ))
-        ) : (
-          <p>No conversation history available.</p>
-        )}
-      </div>
-
-        <div className="chat-input">
-          <input
-            type="text"
-            value={userMessage}
-            onChange={(e) => setUserMessage(e.target.value)}
-            placeholder="Type your message..."
-          />
-          <button onClick={sendUserMessage}
-          ref={sendButtonRef}>Send</button>
-        </div>
-      </div>
+      <ChatbotHeader
+       tokensUsed={tokensUsed}
+       dropDownVisible={dropDownVisible}
+       handleProfileClick={handleProfileClick}
+       showLogoutWarning={showLogoutWarning}
+       logoutWarningVisible={logoutWarningVisible}
+       logoutWarningText={logoutWarningText}
+       hideLogoutWarning={hideLogoutWarning}
+       logout={logout}
+       showContextWarning={showContextWarning}
+       contextWarningVisible={contextWarningVisible}
+       handleClearContext= {handleClearContext}
+       contextClearWarningText={contextClearWarningText}
+       hideContextWarning={hideContextWarning}
+      />
+  
+    <ChatContainer
+      conversationHistory={conversationHistory}
+      userMessage={userMessage}
+      setUserMessage={setUserMessage}
+      sendUserMessage={sendUserMessage}
+      sendButtonRef={sendButtonRef}
+    />
     </div>
   );
 };

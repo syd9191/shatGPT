@@ -1,0 +1,47 @@
+/* Header Section */
+.chatbot-header {
+    width: 100%;
+    padding: 20px;
+    background-color: #333; /* Darker header background for contrast */
+    color: #fff;
+    text-align: center;
+    position: relative;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.6);
+  }
+  
+  .chatbot-header h1 {
+    font-size: 2.4rem;
+    margin: 0;
+    letter-spacing: 2px;
+  }
+  
+  .profile-section img {
+    position: absolute;
+    top: 25%;
+    right: 30px;
+    width: 2.7%;
+    height: auto;
+  }
+  
+  .profile-dropdown {
+    position: absolute;
+    top: 90%;
+    right: 10px;
+    background-color: #333;
+    color: #fff;
+    padding: 10px 30px;
+    border-radius: 5px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    z-index: 10;
+  }
+  
+  .profile-dropdown p {
+    margin: 0;
+    padding: 5px 10px;
+    cursor: pointer;
+  }
+  
+  .profile-dropdown p:hover {
+    background-color: #00bcd4;
+  }
+  
