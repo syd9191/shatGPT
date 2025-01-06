@@ -30,21 +30,34 @@
   letter-spacing: 2px;
 }
 
-.logout-button {
+.profile-section img{
   position: absolute;
-  top: 10%;
+  top:25%;
   right: 30px;
-  padding: 12px 18px;
-  background-color: #bf1624; /* Bright teal for action button */
-  color: #fff;
-  border: none;
-  border-radius: 6px;
-  cursor: pointer;
-  transition: background-color 0.3s ease;
+  width:2.7%;
+  height:auto;
 }
 
-.logout-button:hover {
-  background-color: #9a131e; /* Darker teal on hover */
+.profile-dropdown {
+  position: absolute;
+  top: 90%;
+  right:10px;
+  background-color: #333;
+  color: #fff;
+  padding: 10px 30px;
+  border-radius: 5px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  z-index: 10;
+}
+
+.profile-dropdown p {
+  margin: 0;
+  padding: 5px 10px;
+  cursor: pointer;
+}
+
+.profile-dropdown p:hover {
+  background-color: #00bcd4;
 }
 
 /* Chat Container */
@@ -239,6 +252,7 @@
 .confirmation-warning .button-container button:focus {
   outline: none;
 }
+
 
 
 /* Responsive Design for smaller screens */

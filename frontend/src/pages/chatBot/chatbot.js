@@ -6,11 +6,13 @@ import './chatbot.css';
 
 const ChatbotPage = () => {
   const [userMessage, setUserMessage] = useState('');
-  const [gptReply, setGptReply] = useState('');
   const [tokensUsed, setTokensUsed] = useState(0);
   const [isSending, setIsSending]= useState(false);
-  const [conversationHistory, setConversationHistory]= useState([]);
-  const [warningVisible, setWarningVisible] = useState(false);
+  const [conversationHistory, setConversationHistory]=useState([]);
+  const [contextWarningVisible, setContextWarningVisible]=useState(false);
+  const [logoutWarningVisible, setLogoutWarningVisible]=useState(false);
+  const [dropDownVisible, setDropDownVisible]= useState(false);
+
 
   const {user, logout} = useAuth();
   const sendButtonRef = useRef(null);
@@ -74,7 +76,6 @@ const ChatbotPage = () => {
       const chatResponse = await axios.post('http://127.0.0.1:3000/api/chatbot', {conversationHistory: newConversationHistory});
       console.log("Chat Response:", chatResponse.data);
 
-      setGptReply(chatResponse.data.latestMessage);
       setTokensUsed(chatResponse.data.totalTokens);
       setConversationHistory(chatResponse.data);
 
@@ -111,38 +112,85 @@ const ChatbotPage = () => {
     
     setTokensUsed(0);
     console.log("Conversational Context RESET: ", clearedConversationhistory);
-    hideWarning();
+    hideContextWarning();
   };
 
-  const showWarning = ()=>{
-    setWarningVisible(true);
+  const showContextWarning = ()=>{
+    setContextWarningVisible(true);
   };
 
-  const hideWarning = ()=>{
-    setWarningVisible(false);
+  const hideContextWarning = ()=>{
+    setContextWarningVisible(false);
   };
 
-  const warningText="Are You Sure? This Conversation will be ERASED!";
+  const showLogoutWarning = ()=>{
+    setLogoutWarningVisible(true);
+  };
+
+  const hideLogoutWarning = ()=>{
+    setLogoutWarningVisible(false);
+  };
+
+  const toggleDropDown=()=>{
+    setDropDownVisible(!dropDownVisible);
+    console.log("Drop Down Toggled");
+  }
+
+  const handleProfileClick=()=>{
+    console.log("Placeholder Profile Section");
+    toggleDropDown();
+  };
+
+
+
+  const contextClearWarningText="Are You Sure? This Conversation will be ERASED!";
+  const logoutWarningText="Are you sure you want to Log Out?";
 
   return (
     <div className="chatbot-page">
       <header className="chatbot-header">
         <h1>ShatGPT</h1>
         <div>
-          <button className="logout-button" onClick={logout}>Log Out</button>
+          <div className="profile-section">
+          <img
+            src="/user.png"
+            alt="Profile"
+            className="profile-picture"
+            onClick={handleProfileClick}
+          />
+          {dropDownVisible && (
+            <div className="profile-dropdown">
+              <p>Your Profile</p>
+              <p>Settings</p>
+              <p onClick={showLogoutWarning}>Log Out</p>
+            </div>
+          )}
+
+          {logoutWarningVisible && 
+          (
+            <ConfirmationWarning
+            yesButtonPress={logout}
+            noButtonPress={hideLogoutWarning}
+            warningText={logoutWarningText}
+            yesButtonText={"Log Out"}
+            noButtonText={"Cancel"}></ConfirmationWarning>
+          )}
+      </div>
         </div>
         
         <div className="tokens-used">
           <p><strong>Tokens Used:</strong> {tokensUsed || "No tokens used yet."}</p>
-          <button className="clear-context" onClick={showWarning}>Clear Context </button>
+          <button className="clear-context" onClick={showContextWarning}>Clear Context </button>
         </div>
       </header>
 
-      {warningVisible && (
+      {contextWarningVisible && (
         <ConfirmationWarning
-        handleClearContext={handleClearContext}
-        hideWarning={hideWarning}
-        warningText={warningText}></ConfirmationWarning>
+        yesButtonPress={handleClearContext}
+        noButtonPress={hideContextWarning}
+        warningText={contextClearWarningText}
+        yesButtonText={"Clear Context"}
+        noButtonText={"Cancel"}></ConfirmationWarning>
         
       )}
 
