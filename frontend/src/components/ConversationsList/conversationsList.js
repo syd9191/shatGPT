@@ -5,7 +5,7 @@ import { useAuth } from '../../context/authContext';
 
 const ConversationsList=({
     setConversationHistory,
-    conversations
+    setTokensUsed
 })=>{
 
     const {user}=useAuth();
@@ -21,8 +21,8 @@ const ConversationsList=({
             const conversationHistory= response.data.conversationHistory;
             if (response.data.status===200){
                 setConversationHistory(conversationHistory);
+                setTokensUsed(conversationHistory.totalTokens);
                 setNewConversationTitle('');
-                console.log(conversationHistory);
             }
             else{
                 console.log("Backend Error, Status: ", response.data.status, ", Error Message: ", response.data.message);
@@ -34,10 +34,8 @@ const ConversationsList=({
 
     useEffect(()=>{
         if (!user?.user_id) return; // Ensure user_id is available
-        console.log(user.user_id);
         const fetchUserConversations=async()=>{
             try{
-                console.log(user.user_id);
                 const response=await axios.post('http://127.0.0.1:3000/get-user-conversations', {user_id: user.user_id});
                 if (response.data.status===200){
                     setUserConversationsList(response.data.userConversation.conversationsList);
