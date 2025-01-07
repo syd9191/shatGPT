@@ -1,0 +1,55 @@
+/* conversationBar.css */
+.conversation-bar {
+    width: 250px;
+    background-color: #f0f0f0;
+    border-right: 1px solid #ddd;
+    padding: 20px;
+    height: 100vh;
+    overflow-y: auto;
+  }
+  
+  .create-conversation {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 20px;
+  }
+  
+  .create-conversation input {
+    padding: 8px;
+    margin-bottom: 10px;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+  }
+  
+  .create-conversation button {
+    padding: 8px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+  }
+  
+  .create-conversation button:hover {
+    background-color: #0056b3;
+  }
+  
+  .conversation-item {
+    padding: 10px;
+    border-radius: 6px;
+    cursor: pointer;
+    margin-bottom: 10px;
+    background-color: #fff;
+    transition: background-color 0.3s;
+  }
+  
+  .conversation-item:hover {
+    background-color: #f1f1f1;
+  }
+  
+  .conversation-item p {
+    margin: 0;
+    font-weight: bold;
+    color: #333;
+  }
+  

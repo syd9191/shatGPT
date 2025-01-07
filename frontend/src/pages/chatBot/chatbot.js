@@ -3,6 +3,7 @@ import axios from 'axios';
 import { useAuth } from '../../context/authContext';
 import ChatbotHeader from '../../components/ChatbotHeader/chatbotHeader';
 import ChatContainer from '../../components/ChatContainer/chatContainer';
+import ConversationsList from '../../components/ConversationsList/conversationsList';
 import './chatbot.css';
 
 const ChatbotPage = () => {
@@ -143,6 +144,27 @@ const ChatbotPage = () => {
   const contextClearWarningText="Are You Sure? This Conversation will be ERASED!";
   const logoutWarningText="Are you sure you want to Log Out?";
 
+  const conversations = [
+    {
+      id: 1,
+      title: 'Conversation 1',
+      lastMessage: 'Hey, how are you?',
+      createdAt: '2025-01-01',
+    },
+    {
+      id: 2,
+      title: 'Conversation 2',
+      lastMessage: 'What’s the weather today?',
+      createdAt: '2025-01-02',
+    },
+    {
+      id: 3,
+      title: 'Conversation 3',
+      lastMessage: 'Can you help me with a task?',
+      createdAt: '2025-01-03',
+    },
+  ];
+
   return (
     <div className="chatbot-page">
       <ChatbotHeader
@@ -160,14 +182,21 @@ const ChatbotPage = () => {
        contextClearWarningText={contextClearWarningText}
        hideContextWarning={hideContextWarning}
       />
+
+      <ConversationsList
+      setConversationHistory={setConversationHistory}
+      conversations={conversations}>
+      </ConversationsList>
+
+    
   
-    <ChatContainer
-      conversationHistory={conversationHistory}
-      userMessage={userMessage}
-      setUserMessage={setUserMessage}
-      sendUserMessage={sendUserMessage}
-      sendButtonRef={sendButtonRef}
-    />
+      <ChatContainer
+        conversationHistory={conversationHistory}
+        userMessage={userMessage}
+        setUserMessage={setUserMessage}
+        sendUserMessage={sendUserMessage}
+        sendButtonRef={sendButtonRef}
+      />
     </div>
   );
 };
