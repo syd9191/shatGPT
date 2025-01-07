@@ -7,6 +7,10 @@ const conversationHistorySchema = new Schema({
         ref: 'user',
         required: true
     },
+    title: {
+        type: String, 
+        required: true
+    },
 
     conversation:{
         type: [

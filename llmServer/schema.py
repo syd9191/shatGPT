@@ -20,6 +20,7 @@ class Message(BaseModel):
 
 class ConversationHistory(BaseModel):
     user_id: str = Field(..., description="Unique identifier of the user")
+    title: str = Field(..., description="Title of the current conversation")
     conversation: List[Message] = Field(default=[], description="List of conversation messages")
     totalTokens: int = Field(default=0, description="Total tokens used in the conversation")
     lastUpdated: Optional[datetime] = Field(None, description="Timestamp of the last update")

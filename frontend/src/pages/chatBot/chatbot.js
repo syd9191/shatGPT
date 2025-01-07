@@ -19,26 +19,7 @@ const ChatbotPage = () => {
   const {user, logout} = useAuth();
   const sendButtonRef = useRef(null);
 
-  useEffect(() => {
-    const fetchUserConversation = async () => {
-      try {
-        const response = await axios.post('http://127.0.0.1:3000/get-user-conversation', {
-          user_id: user.user_id,
-        });
-  
-        if (response.data) {
-          setConversationHistory(response.data.conversationHistory); // Assuming response.data is the conversation history
-          console.log("Conversation History:", response.data.conversationHistory);
-    
-          setTokensUsed(response.data.conversationHistory.totalTokens);
-        }
-      } catch (error) {
-        console.error("Error fetching user conversation:", error);
-      }
-    };
-  
-    fetchUserConversation();
-  }, [user.user_id]); // Include dependencies
+ // Include dependencies
 
 
   useEffect(() => {

@@ -27,6 +27,7 @@ async def health_check():
     return {'status': "LLM server healthy", 'message': "LLM Server is up and running"}
 
 
+#this is just an update of conversationHistory object passed by the backend servers
 @app.post("/chatbot/generate")
 async def chatBot(conversationHistory: ConversationHistory):
     try:
