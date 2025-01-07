@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useAuth } from '../../context/authContext';
+import './conversationsList.css';
 
 
 const ConversationsList=({
@@ -85,12 +86,10 @@ const ConversationsList=({
                 <input
                 type="text"
                 value={newConversationTitle}
+                placeholder='Enter New Conversation Title...'
                 onChange={(e)=>setNewConversationTitle(e.target.value)}
                 />
-                <button 
-                onClick={handleCreateConversation}
-                >Create New Conversation
-                </button>
+                <i className="fa-solid fa-plus-circle" onClick={handleCreateConversation}></i>
             </div>
 
             {userConversationsList.map((conversation)=>(
@@ -99,6 +98,9 @@ const ConversationsList=({
                 className="conversation-item"
                 onClick={()=>handleSelectConversation(conversation.conversation_id)}> 
                 <p>{conversation.title}</p>
+                <button className="delete-button">
+                    <i className="fa-solid fa-trash-can"></i> 
+                </button>
                 </div>
             ))}
         </div>

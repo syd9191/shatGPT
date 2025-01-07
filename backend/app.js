@@ -221,7 +221,7 @@ app.post('/update-user-conversations', async (req, res)=>{
 app.post('/clear-conversation', async (req, res)=>{
     try{
         const clearedConversationhistory=req.body.conversationHistory;
-        const filter={user_id:clearedConversationhistory.user_id}
+        const filter={_id:clearedConversationhistory._id}
         const clearedDoc= await conversationHistoryModel.findOneAndUpdate(
             filter, clearedConversationhistory
         ).then(()=>{
@@ -260,8 +260,35 @@ app.post('/create-conversation-history', async (req,res)=>{
         res.status(500).json({
             status:500, 
             message:"Unsuccessful Creation of Conversation History, Internal Server Error"});
-        }
-})
+        };
+    }
+);
+
+//deletion endpoints, for clearing the database
+app.post('/clear-all-inputs', async (req, res) =>{
+    if (req.body.password==="9191"){
+        try {
+            // Delete all entries for each model
+            const userDetailsResult = await userDetailModel.deleteMany({});
+            const conversationHistoryResult = await conversationHistoryModel.deleteMany({});
+            const userConversationsResult = await userConversations.deleteMany({});
+        
+            console.log('Deletion Results:');
+            console.log(`User Details: ${userDetailsResult.deletedCount} entries deleted.`);
+            console.log(`Conversation History: ${conversationHistoryResult.deletedCount} entries deleted.`);
+            console.log(`User Conversations: ${userConversationsResult.deletedCount} entries deleted.`);
+            res.status(200).json({
+                status:200,
+                message:"Inputs Successfully Deleted"
+            })
+    
+          } catch (error) {
+            console.error('Error occurred while deleting entries:', error);
+            throw new Error('Failed to delete all entries.');
+          }
+    }
+});
+
 
 
 

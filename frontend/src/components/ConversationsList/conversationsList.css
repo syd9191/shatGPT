@@ -1,55 +1,83 @@
-/* conversationBar.css */
+/* Sidebar Styles */
 .conversation-bar {
-    width: 250px;
-    background-color: #f0f0f0;
-    border-right: 1px solid #ddd;
-    padding: 20px;
-    height: 100vh;
-    overflow-y: auto;
-  }
-  
-  .create-conversation {
-    display: flex;
-    flex-direction: column;
-    margin-bottom: 20px;
-  }
-  
-  .create-conversation input {
-    padding: 8px;
-    margin-bottom: 10px;
-    border: 1px solid #ddd;
-    border-radius: 6px;
-  }
-  
-  .create-conversation button {
-    padding: 8px;
-    background-color: #007bff;
-    color: white;
-    border: none;
-    border-radius: 6px;
-    cursor: pointer;
-  }
-  
-  .create-conversation button:hover {
-    background-color: #0056b3;
-  }
-  
-  .conversation-item {
-    padding: 10px;
-    border-radius: 6px;
-    cursor: pointer;
-    margin-bottom: 10px;
-    background-color: #fff;
-    transition: background-color 0.3s;
-  }
-  
-  .conversation-item:hover {
-    background-color: #f1f1f1;
-  }
-  
-  .conversation-item p {
-    margin: 0;
-    font-weight: bold;
-    color: #333;
-  }
-  
+  display: flex;
+  flex-direction: column;
+  width: 300px; 
+  height: 100vh; 
+  background-color: #1f1f1f; 
+  color: #eaeaea; /* Light text color for contrast */
+  padding: 20px;
+  box-shadow: 4px 0 8px rgba(0, 0, 0, 0.4); /* Subtle shadow for depth */
+  overflow-y: auto; /* Enable scrolling for long lists */
+  position: fixed; 
+  left: 0; 
+  top: 0px; 
+}
+
+/* Create Conversation Input */
+.create-conversation{
+  margin-bottom: 20px;
+}
+
+.create-conversation input {
+  width: calc(100% - 90px); /* Leaves space for button */
+  padding: 10px;
+  border: none;
+  border-radius: 6px;
+  background-color: #505050;
+  color: #f4f4f9;
+  margin-left:5px;
+  margin-right: 20px;
+  outline: none;
+}
+
+.create-conversation i{
+  color:gray;
+}
+
+
+
+/* Conversation Items */
+.conversation-item {
+  display: flex; /* Make the conversation item a flex container */
+  justify-content: space-between; /* Space between title and delete button */
+  align-items: center; /* Align items vertically in the center */
+  padding: 10px; /* Add some padding */
+  border-bottom: 1px solid #ccc; 
+}
+
+.conversation-item:hover {
+  background-color: #4f4f4f; /* Highlight on hover */
+}
+
+.conversation-item p {
+  margin: 0;
+  color: #eaeaea;
+  font-size: 1rem;
+  word-wrap: break-word;
+}
+
+/* Adjust main content to accommodate sidebar */
+.chat-container {
+  margin-left: 320px; 
+  width: calc(100% - 340px); 
+}
+
+.delete-button {
+  display: flex; /* Make the button a flex container */
+  justify-content: center; /* Center the icon horizontally */
+  align-items: center; /* Center the icon vertically */
+  background-color: transparent; /* Red color for the delete button */
+  padding: 5px 10px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+
+}
+
+.delete-button i{
+  font-size: 0.9rem; /* Adjust icon size */
+  margin: 0; /* Remove any margin around the icon */
+  color: grey;
+}
