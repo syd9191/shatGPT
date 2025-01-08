@@ -1,17 +1,20 @@
 /* Sidebar Styles */
 .conversation-bar {
-  display: flex;
-  flex-direction: column;
-  width: 300px; 
-  height: 100vh; 
-  background-color: #1f1f1f; 
-  color: #eaeaea; /* Light text color for contrast */
-  padding: 20px;
+  position: fixed; /* Fixed to the viewport */
+  left: -300px; /* Initially hide the sidebar */
+  top: 0;
+  width: 300px;
+  height: 100vh;
+  background-color: #1f1f1f;
+  color: #eaeaea;
   box-shadow: 4px 0 8px rgba(0, 0, 0, 0.4); /* Subtle shadow for depth */
-  overflow-y: auto; /* Enable scrolling for long lists */
-  position: fixed; 
-  left: 0; 
-  top: 0px; 
+  overflow-y: auto;
+  transition: transform 0.3s ease; /* Smooth slide-in/out animation */
+  z-index: 1; /* Lower z-index than the menu button */
+}
+
+.conversation-bar.visible {
+  transform: translateX(300px); /* Slide it into view */
 }
 
 /* Create Conversation Input */
@@ -34,7 +37,6 @@
 .create-conversation i{
   color:gray;
 }
-
 
 
 /* Conversation Items */

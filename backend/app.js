@@ -289,6 +289,24 @@ app.post('/clear-all-inputs', async (req, res) =>{
     }
 });
 
+app.post('/delete-conversation', async (req, res)=>{
+    const conversationId= req.body.conversationID;
+    try{
+        const condition = {_id:conversationId};
+        const deletedDoc= await conversationHistoryModel.deleteOne(condition);
+        console.log(deletedDoc);
+        res.status(200).json({
+            status: 200,
+            message: `Conversation id: ${conversationId} Deleted`
+        });
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({
+            status:500,
+            message:`BACKEND: An Error Occurred while deleting conversation: ${error}`
+        })
+    }
+});
 
 
 

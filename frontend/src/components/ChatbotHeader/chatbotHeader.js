@@ -1,5 +1,6 @@
-import React from 'react';
+import React, {useState} from 'react';
 import ConfirmationWarning from '../ConfirmationWarning/confirmationWarning';
+import ConversationsList from '../ConversationsList/conversationsList';
 import './chatbotHeader.css';
 
 
@@ -16,11 +17,20 @@ const ChatbotHeader=({
   contextWarningVisible,
   handleClearContext,
   contextClearWarningText,
-  hideContextWarning
+  hideContextWarning,
+  setConversationHistory,
+  setTokensUsed
 }
 
+)=>{
+  const [conversationBarVisible, setConversationBarVisible]= useState(false);
 
-)=>(
+  const toggleConversationBar=()=>{
+    console.log("Conversations Bar Toggled");
+    setConversationBarVisible(!conversationBarVisible);
+  };
+
+  return (
     <header className="chatbot-header">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
     <h1>ShatGPT</h1>
@@ -67,7 +77,17 @@ const ChatbotHeader=({
         noButtonText={"Cancel"}
       />
     )}
+    <div className="conversations-menu">
+      <i className="fa-solid fa-bars" onClick={toggleConversationBar}/>
+    </div>
+    <div className={`conversation-bar ${conversationBarVisible ? "visible" : ""}`}>
+      <ConversationsList
+      setConversationHistory={setConversationHistory}
+      setTokensUsed={setTokensUsed}
+      conversationBarVisible={conversationBarVisible}>
+      </ConversationsList>
+    </div>
   </header>
-);
+)};
 
 export default ChatbotHeader;

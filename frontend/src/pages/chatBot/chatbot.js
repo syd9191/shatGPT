@@ -3,7 +3,6 @@ import axios from 'axios';
 import { useAuth } from '../../context/authContext';
 import ChatbotHeader from '../../components/ChatbotHeader/chatbotHeader';
 import ChatContainer from '../../components/ChatContainer/chatContainer';
-import ConversationsList from '../../components/ConversationsList/conversationsList';
 import './chatbot.css';
 
 const ChatbotPage = () => {
@@ -16,7 +15,7 @@ const ChatbotPage = () => {
   const [dropDownVisible, setDropDownVisible]= useState(false);
 
 
-  const {user, logout} = useAuth();
+  const {logout} = useAuth();
   const sendButtonRef = useRef(null);
 
  // Include dependencies
@@ -142,13 +141,10 @@ const ChatbotPage = () => {
        handleClearContext= {handleClearContext}
        contextClearWarningText={contextClearWarningText}
        hideContextWarning={hideContextWarning}
+       setConversationHistory={setConversationHistory}
+       setTokensUsed={setTokensUsed}
       />
 
-      <ConversationsList
-      setConversationHistory={setConversationHistory}
-      setTokensUsed={setTokensUsed}>
-      
-      </ConversationsList>
     
   
       <ChatContainer
