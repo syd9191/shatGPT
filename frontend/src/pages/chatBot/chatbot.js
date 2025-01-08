@@ -45,6 +45,7 @@ const ChatbotPage = () => {
       }
 
       console.log("Sending message from REACT:", userMessage);  // Log the message
+      console.log(conversationHistory);
       const newConversationHistory = {
         ...conversationHistory, 
         conversation: [...conversationHistory.conversation, { "role": "user", "content": userMessage }],
