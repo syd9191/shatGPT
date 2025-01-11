@@ -15,29 +15,10 @@ const ChatbotPage = () => {
   const [dropDownVisible, setDropDownVisible]= useState(false);
 
 
-  const {user, logout} = useAuth();
+  const {logout} = useAuth();
   const sendButtonRef = useRef(null);
 
-  useEffect(() => {
-    const fetchUserConversation = async () => {
-      try {
-        const response = await axios.post('http://127.0.0.1:3000/get-user-conversation', {
-          user_id: user.user_id,
-        });
-  
-        if (response.data) {
-          setConversationHistory(response.data.conversationHistory); // Assuming response.data is the conversation history
-          console.log("Conversation History:", response.data.conversationHistory);
-    
-          setTokensUsed(response.data.conversationHistory.totalTokens);
-        }
-      } catch (error) {
-        console.error("Error fetching user conversation:", error);
-      }
-    };
-  
-    fetchUserConversation();
-  }, [user.user_id]); // Include dependencies
+ // Include dependencies
 
 
   useEffect(() => {
@@ -64,6 +45,7 @@ const ChatbotPage = () => {
       }
 
       console.log("Sending message from REACT:", userMessage);  // Log the message
+      console.log(conversationHistory);
       const newConversationHistory = {
         ...conversationHistory, 
         conversation: [...conversationHistory.conversation, { "role": "user", "content": userMessage }],
@@ -143,6 +125,7 @@ const ChatbotPage = () => {
   const contextClearWarningText="Are You Sure? This Conversation will be ERASED!";
   const logoutWarningText="Are you sure you want to Log Out?";
 
+
   return (
     <div className="chatbot-page">
       <ChatbotHeader
@@ -159,15 +142,19 @@ const ChatbotPage = () => {
        handleClearContext= {handleClearContext}
        contextClearWarningText={contextClearWarningText}
        hideContextWarning={hideContextWarning}
+       setConversationHistory={setConversationHistory}
+       setTokensUsed={setTokensUsed}
       />
+
+    
   
-    <ChatContainer
-      conversationHistory={conversationHistory}
-      userMessage={userMessage}
-      setUserMessage={setUserMessage}
-      sendUserMessage={sendUserMessage}
-      sendButtonRef={sendButtonRef}
-    />
+      <ChatContainer
+        conversationHistory={conversationHistory}
+        userMessage={userMessage}
+        setUserMessage={setUserMessage}
+        sendUserMessage={sendUserMessage}
+        sendButtonRef={sendButtonRef}
+      />
     </div>
   );
 };

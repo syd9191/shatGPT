@@ -12,6 +12,7 @@ const {pingBackendServer, pingLLMServer} = require('./healthCheck.js');
 //Schemas
 const userDetailModel=require('./schemas/userDetails.js');
 const conversationHistoryModel=require('./schemas/conversationHistory.js');
+const userConversations=require('./schemas/userConversations.js');
 
 
 require('dotenv').config();
@@ -71,13 +72,13 @@ app.post('/api/chatbot', async (req, res) => {
     const userMessage=req.body;
     console.log("Backend Server received userMessage: ", userMessage.conversationHistory);
 
-    const filter={user_id:userMessage.conversationHistory.user_id};
+    const filter={_id:userMessage.conversationHistory._id};
     const newConversationHistory=userMessage.conversationHistory
     const convHist= await conversationHistoryModel.findOneAndUpdate(filter, userMessage.conversationHistory);
     console.log("DB received userMessage: ", convHist);
 
     const chatResponse= await getLLMreply(userMessage.conversationHistory);
-    const updatedFilter={user_id:userMessage.conversationHistory.user_id};
+    const updatedFilter={_id:userMessage.conversationHistory._id};
     const updatedConvHist= await conversationHistoryModel.findOneAndUpdate(updatedFilter, chatResponse);
     console.log("DB received userMessage: ", updatedConvHist);
     
@@ -89,6 +90,7 @@ app.post('/api/chatbot', async (req, res) => {
 app.post('/signup', async (req, res)=>{
     const {username, password}=req.body;
     try{
+        //creation of user profile: username and hashed password
         const userExists= await userDetailModel.findOne({username: username});
         if (userExists){
             return res.status(400).json({status:400, message:"Username already exists"})
@@ -99,10 +101,10 @@ app.post('/signup', async (req, res)=>{
                                                 password: hashedPw});
         await userDetails.save();
 
-        //create a new conversation for each new user
+        //create a new userConversation container for each new user
         const getUser= await userDetailModel.findOne({username: username});
         console.log(getUser);
-        const newConversation=new conversationHistoryModel({
+        const newConversation=new userConversations({
             user_id:getUser._id
         })
         newConversation.save();
@@ -141,20 +143,22 @@ app.post('/login', async (req, res)=>{
     }
 });
 
-app.post('/get-user-conversation', async (req, res)=>{
-    const {user_id}=req.body;
-    console.log(user_id);
+
+//TODO: to change later
+app.post('/get-conversation-history', async (req, res)=>{
+    const conversation_id=req.body.conversation_id;
+    console.log(conversation_id);
     
     try{
         const conversationHistory=await conversationHistoryModel.findOne({
-            user_id: new mongoose.Types.ObjectId(user_id)
+            _id: new mongoose.Types.ObjectId(conversation_id)
         });
         console.log("Conversation History Fetched From DB: ", conversationHistory);
 
         res.status(200).json(
             {status:200, 
              message: "Successful Retrieval of Conversation History", 
-             user_id:user_id, 
+             user_id:conversationHistory.user_id, 
              conversationHistory: conversationHistory})
     } catch (err){
         console.error(err);
@@ -165,10 +169,59 @@ app.post('/get-user-conversation', async (req, res)=>{
     }
 });
 
+
+app.post('/get-user-conversations', async (req, res)=>{
+    const user_id= req.body.user_id;
+    try {
+        const userIdFilter={user_id:user_id};
+        const userConversation= await userConversations.findOne(
+            userIdFilter
+        );
+        console.log("userConversation fetched from DB");
+
+        res.status(200).json({
+            status:200,
+            message: "Successful Retrieval of User Conversation",
+            userConversation: userConversation});
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({
+            status:500,
+            message: "Unsuccessful Retrieval of User Conversation"
+        });
+    }
+});
+
+app.post('/update-user-conversations', async (req, res)=>{
+    const user_id= req.body.user_id;
+    const conversationsList= req.body.conversationsList;
+    try {
+        const userIdFilter={user_id:user_id};
+        const conversationListUpdate={$set: {conversationsList:conversationsList}};
+
+        const userConversation= await userConversations.findOneAndUpdate(
+            userIdFilter,
+            conversationListUpdate,
+            { returnDocument: "after", upsert:true}
+        );
+        console.log("userConversation updated from DB");
+        res.status(200).json({
+            status:200,
+            message: "Successful Update of User Conversation",
+            userConversation: userConversation});
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({
+            status:500,
+            message: "Unsuccessful Update of User Conversation"
+        });
+    }
+});
+
 app.post('/clear-conversation', async (req, res)=>{
     try{
         const clearedConversationhistory=req.body.conversationHistory;
-        const filter={user_id:clearedConversationhistory.user_id}
+        const filter={_id:clearedConversationhistory._id}
         const clearedDoc= await conversationHistoryModel.findOneAndUpdate(
             filter, clearedConversationhistory
         ).then(()=>{
@@ -184,6 +237,74 @@ app.post('/clear-conversation', async (req, res)=>{
         res.status(500).json({
             status:500, 
             message:"Conversation Clearing Unsuccessful, Internal Server Error"});
+    }
+});
+
+app.post('/create-conversation-history', async (req,res)=>{
+    const user_id=req.body.user_id;
+    const title=req.body.title;
+    try{
+        const newConversation=new conversationHistoryModel({
+            user_id:user_id,
+            title:title
+        });
+        newConversation.save();
+        const messageSuccess='conversationHistory: '+ title + 'saved successfully!';
+        res.status(200).json({
+            status:200,
+            message: messageSuccess,
+            conversationHistory: newConversation
+        });
+    } catch (error){
+        console.error(error);
+        res.status(500).json({
+            status:500, 
+            message:"Unsuccessful Creation of Conversation History, Internal Server Error"});
+        };
+    }
+);
+
+//deletion endpoints, for clearing the database
+app.post('/clear-all-inputs', async (req, res) =>{
+    if (req.body.password==="9191"){
+        try {
+            // Delete all entries for each model
+            const userDetailsResult = await userDetailModel.deleteMany({});
+            const conversationHistoryResult = await conversationHistoryModel.deleteMany({});
+            const userConversationsResult = await userConversations.deleteMany({});
+        
+            console.log('Deletion Results:');
+            console.log(`User Details: ${userDetailsResult.deletedCount} entries deleted.`);
+            console.log(`Conversation History: ${conversationHistoryResult.deletedCount} entries deleted.`);
+            console.log(`User Conversations: ${userConversationsResult.deletedCount} entries deleted.`);
+            res.status(200).json({
+                status:200,
+                message:"Inputs Successfully Deleted"
+            })
+    
+          } catch (error) {
+            console.error('Error occurred while deleting entries:', error);
+            throw new Error('Failed to delete all entries.');
+          }
+    }
+});
+
+app.post('/delete-conversation', async (req, res)=>{
+    const conversationId= req.body.conversationID;
+    try{
+        const condition = {_id:conversationId};
+        const deletedDoc= await conversationHistoryModel.deleteOne(condition);
+        console.log(deletedDoc);
+        res.status(200).json({
+            status: 200,
+            message: `Conversation id: ${conversationId} Deleted`
+        });
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({
+            status:500,
+            message:`BACKEND: An Error Occurred while deleting conversation: ${error}`
+        })
     }
 });
 
