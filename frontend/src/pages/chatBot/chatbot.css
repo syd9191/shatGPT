@@ -5,29 +5,12 @@
   justify-content: flex-start;
   align-items: center;
   height: 100vh;
-  background-color: #1f1f1f; /* Dark background for modern industrial feel */
+  background-color: #1f1f1f; 
   font-family: 'Arial', sans-serif;
   color: #eaeaea; /* Soft off-white text */
-  padding: 20px;
+  padding: 0px;
   box-sizing: border-box;
   overflow: hidden; /* Prevent overall page overflow */
-}
-
-/* Header Section */
-.chatbot-header {
-  width: 100%;
-  padding: 20px;
-  background-color: #333; /* Darker header background for contrast */
-  color: #fff;
-  text-align: center;
-  position: relative;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.6);
-}
-
-.chatbot-header h1 {
-  font-size: 2.4rem;
-  margin: 0;
-  letter-spacing: 2px;
 }
 
 /* Chat Container */
