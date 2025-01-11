@@ -80,17 +80,6 @@ const ChatbotHeader=({
         />
       )}
     </div>
-    
-    <div className="conversations-menu">
-      <i className="fa-solid fa-bars" onClick={toggleConversationBar}/>
-    </div>
-    <div className={`conversation-bar ${conversationBarVisible ? "visible" : ""}`}>
-      <ConversationsList
-      setConversationHistory={setConversationHistory}
-      setTokensUsed={setTokensUsed}
-      conversationBarVisible={conversationBarVisible}>
-      </ConversationsList>
-    </div>
   </header>
 )};
 

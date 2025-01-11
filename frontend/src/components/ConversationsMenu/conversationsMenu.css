@@ -1,0 +1,27 @@
+.conversations-menu {
+    position: fixed; /* Stick it to a fixed position */
+    bottom: 20px; /* Adjust vertical placement */
+    left: 10px; /* Keep it aligned to the left */
+    cursor: pointer;
+    font-size: 1.5rem; /* Adjust icon size */
+    color: #eaeaea; /* Match sidebar text color */
+    background-color: #1f1f1f; /* Match sidebar background color */
+    padding: 10px;
+    border: none;
+    border-radius: 50%; /* Circular button */
+    box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.4); /* Subtle shadow for depth */
+    transition: transform 0.3s ease, background-color 0.3s ease;
+    z-index: 2; 
+  }
+  
+  .conversations-menu:hover {
+    background-color: #757373; /* Change background on hover */
+    transform: scale(1.1); /* Slight zoom effect */
+  }
+  
+  /* Optional: Menu Button Active State */
+  .conversations-menu.active {
+    transform: rotate(90deg); /* Indicate active state */
+  }
+  
+  

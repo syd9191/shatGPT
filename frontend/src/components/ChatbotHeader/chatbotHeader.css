@@ -43,20 +43,27 @@
   height: auto;
 }
 
+.tokens-used p{
+  margin-bottom: 0.5vh;
+  font-size: 1.2vh;
+  margin-top: 0.5vh;
+}
+
 .tokens-used strong {
   margin: 0 0;
   font-weight: bold;
-  font-size: 1.5vh;
+  font-size: 1.2vh;
   color: #00b4d8; /* Teal for highlighting tokens */
 }
 
 .tokens-used .clear-context {
-  margin-top: 0; /* Remove margin causing layout shift */
+  margin-top: 0.5vh; 
+  margin-bottom: 0.5vh;
   background-color: #00b4d8;
   color: white;
   text-align: center; 
-  font-size: 1.5vh; /* Adjust to fit parent */
-  padding: 3px 5px; /* Reduce padding */
+  font-size: 1.5vh; 
+  padding: 3px 5px; 
   max-width: 100%;
   max-height: 100%;
   box-sizing: border-box; 
@@ -104,30 +111,3 @@
 .profile-dropdown i {
   font-size: 1.2rem; /* Adjust icon size */
 }
-
-.conversations-menu {
-  position: fixed; /* Stick it to a fixed position */
-  bottom: 20px; /* Adjust vertical placement */
-  left: 10px; /* Keep it aligned to the left */
-  cursor: pointer;
-  font-size: 1.5rem; /* Adjust icon size */
-  color: #eaeaea; /* Match sidebar text color */
-  background-color: #1f1f1f; /* Match sidebar background color */
-  padding: 10px;
-  border: none;
-  border-radius: 50%; /* Circular button */
-  box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.4); /* Subtle shadow for depth */
-  transition: transform 0.3s ease, background-color 0.3s ease;
-  z-index: 2; 
-}
-
-.conversations-menu:hover {
-  background-color: #757373; /* Change background on hover */
-  transform: scale(1.1); /* Slight zoom effect */
-}
-
-/* Optional: Menu Button Active State */
-.conversations-menu.active {
-  transform: rotate(90deg); /* Indicate active state */
-}
-
