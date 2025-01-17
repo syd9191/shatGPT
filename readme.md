@@ -78,7 +78,6 @@ First, clone the repository to your local machine:
 
 ```bash
 git clone <https://github.com/syd9191/shatGPT.git>
-cd SHATGPT
 ```
 
 ### 2. Start the Backend Server
@@ -95,7 +94,7 @@ npm install
 
 Create .env using the .env-copy: Fill in your own mongodb url
 ```bash 
-   cp .env-copy .env
+cp .env-copy .env
 ```
 
 Run the backend server with nodemon for hot reloading:
