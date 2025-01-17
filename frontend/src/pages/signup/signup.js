@@ -69,7 +69,7 @@ const SignupPage = () =>{
 
             {error && <p className="error">{error}</p>} {/* Display error message if any */}
 
-            <button type="submit" className="btn btn-primary">Log In</button>
+            <button type="submit" className="btn btn-primary">Sign Up</button>
 
             </form>
         </div>

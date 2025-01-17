@@ -3,6 +3,7 @@ import axios from 'axios';
 import { useAuth } from '../../context/authContext';
 import ChatbotHeader from '../../components/ChatbotHeader/chatbotHeader';
 import ChatContainer from '../../components/ChatContainer/chatContainer';
+import ConversationsMenu from '../../components/ConversationsMenu/conversationsMenu';
 import './chatbot.css';
 
 const ChatbotPage = () => {
@@ -13,6 +14,7 @@ const ChatbotPage = () => {
   const [contextWarningVisible, setContextWarningVisible]=useState(false);
   const [logoutWarningVisible, setLogoutWarningVisible]=useState(false);
   const [dropDownVisible, setDropDownVisible]= useState(false);
+  const [conversationBarVisible, setConversationBarVisible]= useState(false);
 
 
   const {logout} = useAuth();
@@ -154,6 +156,13 @@ const ChatbotPage = () => {
         setUserMessage={setUserMessage}
         sendUserMessage={sendUserMessage}
         sendButtonRef={sendButtonRef}
+      />
+
+      <ConversationsMenu 
+        conversationBarVisible={conversationBarVisible}
+        setConversationBarVisible={setConversationBarVisible}
+        setConversationHistory={setConversationHistory}
+        setTokensUsed={setTokensUsed}
       />
     </div>
   );

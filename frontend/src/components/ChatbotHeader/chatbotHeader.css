@@ -1,26 +1,85 @@
 /* Header Section */
 .chatbot-header {
-    width: 100%;
-    padding: 20px;
-    background-color: #333; /* Darker header background for contrast */
-    color: #fff;
-    text-align: center;
-    position: relative;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.6);
-  }
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between; /* Keeps space between the logo and the right item */
+  width: 100%;
+  height: auto;
+  background-color: #333;
+  color: #fff;
+  text-align: center;
+  position: relative;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.6);
+}
   
 .chatbot-header h1 {
+  text-align: left;
+  margin-left: 5vh; /* Centers the title horizontally */
   font-size: 2.4rem;
-  margin: 0;
   letter-spacing: 2px;
 }
 
-.profile-section img {
-  position: absolute;
-  top: 25%;
-  right: 30px;
-  width: 2.7%;
+.top-right-button-cluster {
+  display: flex;
+  margin-right: 2%;
+  flex-direction: row-reverse;
+  align-items: center;
+  justify-content: space-between; /* Ensure proper spacing */
+  gap: 20px; /* Space between profile and tokens-used */
+  flex-grow:0;
+
+}
+
+
+/* Tokens Used Display */
+.tokens-used {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  font-size: 1.5vh;
+  color: #eaeaea;
+  opacity: 0.8;
+  gap:0.0001vh;
   height: auto;
+}
+
+.tokens-used p{
+  margin-bottom: 0.5vh;
+  font-size: 1.2vh;
+  margin-top: 0.5vh;
+}
+
+.tokens-used strong {
+  margin: 0 0;
+  font-weight: bold;
+  font-size: 1.2vh;
+  color: #00b4d8; /* Teal for highlighting tokens */
+}
+
+.tokens-used .clear-context {
+  margin-top: 0.5vh; 
+  margin-bottom: 0.5vh;
+  background-color: #00b4d8;
+  color: white;
+  text-align: center; 
+  font-size: 1.5vh; 
+  padding: 3px 5px; 
+  max-width: 100%;
+  max-height: 100%;
+  box-sizing: border-box; 
+}
+
+
+.profile-section {
+  position: relative;
+}
+
+
+.profile-picture {
+  width: 4vh;
+  height: auto;
+  border-radius: 50%;
+  cursor: pointer;
 }
 
 .profile-dropdown {
@@ -52,55 +111,3 @@
 .profile-dropdown i {
   font-size: 1.2rem; /* Adjust icon size */
 }
-
-/* Tokens Used Display */
-.tokens-used {
-  position:absolute;
-  top:-5%;
-  right:10%;
-  text-align: center;
-  font-size: 0.9rem;
-  color: #eaeaea;
-  opacity: 0.8;
-}
-
-.tokens-used strong {
-  font-weight: bold;
-  color: #00b4d8; /* Teal for highlighting tokens */
-}
-
-.tokens-used .clear-context{
-  margin-top: -5px;
-  background-color: #00b4d8;
-  color: white;
-  text-justify: center;
-  font-size:20px;
-  padding: 5px 10px;
-}
-
-.conversations-menu {
-  position: fixed; /* Stick it to a fixed position */
-  bottom: 20px; /* Adjust vertical placement */
-  left: 10px; /* Keep it aligned to the left */
-  cursor: pointer;
-  font-size: 1.5rem; /* Adjust icon size */
-  color: #eaeaea; /* Match sidebar text color */
-  background-color: #1f1f1f; /* Match sidebar background color */
-  padding: 10px;
-  border: none;
-  border-radius: 50%; /* Circular button */
-  box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.4); /* Subtle shadow for depth */
-  transition: transform 0.3s ease, background-color 0.3s ease;
-  z-index: 2; 
-}
-
-.conversations-menu:hover {
-  background-color: #757373; /* Change background on hover */
-  transform: scale(1.1); /* Slight zoom effect */
-}
-
-/* Optional: Menu Button Active State */
-.conversations-menu.active {
-  transform: rotate(90deg); /* Indicate active state */
-}
-

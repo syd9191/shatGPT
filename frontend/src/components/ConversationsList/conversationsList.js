@@ -16,6 +16,7 @@ const ConversationsList=({
     const [newConversationTitle, setNewConversationTitle]= useState('');
     const [userConversationsList, setUserConversationsList]= useState([]);
     const [deleteConvoWarningVisible, setDeleteConvoWarningVisible]= useState(false);
+    const [userError, setUserError]=useState('');
     const [deleteConvoTitle, setDeleteConvoTitle]=useState(null);
     const [deleteConvoID, setDeleteConvoID]=useState(null);
     
@@ -85,6 +86,13 @@ const ConversationsList=({
 
     const handleCreateConversation=async ()=>{
         try{
+
+        if (!newConversationTitle.trim()) {
+            setUserError("Conversation title cannot be blank");
+            return;
+        }
+
+        setUserError('');
         const response=await axios.post('http://127.0.0.1:3000/create-conversation-history', {user_id: user.user_id, title:newConversationTitle});
         if (response.data.status===200){
             const createdConversation=response.data.conversationHistory;
@@ -141,6 +149,12 @@ const ConversationsList=({
             />
             <i className="fa-solid fa-plus-circle" onClick={handleCreateConversation}></i>
           </div>
+
+          {userError && (
+        <div className="user-error">
+            {userError}
+        </div>
+    )}
       
           {/* Render conversation list */}
           {userConversationsList && userConversationsList.length > 0 ? (
