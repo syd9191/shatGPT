@@ -29,7 +29,7 @@ h2 {
 button {
     padding: 12px 20px;
     font-size: 1.1rem;
-    background-color: #2fc371;
+    background-color: #3063a1;
     color: white;
     border: none;
     border-radius: 10px;
@@ -39,7 +39,7 @@ button {
 }
 
 button:hover {
-    background-color: #0e4728;
+    background-color: #204068;
     transform: translateY(-2px);
 }
 
