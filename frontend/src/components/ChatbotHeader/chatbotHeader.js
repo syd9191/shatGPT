@@ -1,6 +1,5 @@
-import React, {useState} from 'react';
+import React from 'react';
 import ConfirmationWarning from '../ConfirmationWarning/confirmationWarning';
-import ConversationsList from '../ConversationsList/conversationsList';
 import './chatbotHeader.css';
 
 
@@ -18,17 +17,10 @@ const ChatbotHeader=({
   handleClearContext,
   contextClearWarningText,
   hideContextWarning,
-  setConversationHistory,
-  setTokensUsed
 }
 
 )=>{
-  const [conversationBarVisible, setConversationBarVisible]= useState(false);
 
-  const toggleConversationBar=()=>{
-    console.log("Conversations Bar Toggled");
-    setConversationBarVisible(!conversationBarVisible);
-  };
 
   return (
     <header className="chatbot-header">

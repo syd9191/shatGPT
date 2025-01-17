@@ -132,6 +132,11 @@ Create .env using the .env-copy: Fill in your own Openai APIKEY
    cp .env-copy .env
 ```
 
+Install the required dependencies: Install the necessary dependencies by running the following command, which will use the requirements.txt file:
+```bash
+pip install -r requirements.txt
+```
+
 Run the LLMserver
 ```bash
 python LLMserver.py
