@@ -2,24 +2,22 @@
 .conversation-bar {
   position: fixed;
   top: 0;
-  left:-20vw;
+  left: -20vw; /* Start off-screen */
   width: 20vw;
   height: 100vh;
   background-color: #1f1f1f;
   color: #eaeaea;
   box-shadow: 4px 0 8px rgba(0, 0, 0, 0.4);
   overflow-y: auto;
-  transition: transform 0.3s ease;
-  transform: translateX(100%);
+  transition: left 0.3s ease; /* Smooth transition */
   z-index: 1;
 }
 
 .conversation-bar.visible {
-  transform: translateX(-100%); /* Slide it into view */
+  left: 0; 
 }
 
-/* Create Conversation Input */
-.create-conversation{
+.create-conversation {
   margin-bottom: 20px;
 }
 
@@ -31,14 +29,14 @@
   border-radius: 6px;
   background-color: #505050;
   color: #f4f4f9;
-  margin-top:20px;
-  margin-left:5px;
+  margin-top: 20px;
+  margin-left: 5px;
   margin-right: 20px;
   outline: none;
 }
 
-.create-conversation i{
-  color:gray;
+.create-conversation i {
+  color: gray;
 }
 
 /* Conversation Items */
@@ -48,7 +46,7 @@
   justify-content: space-between; /* Space between title and delete button */
   align-items: center; /* Align items vertically in the center */
   padding: 0.7vh; /* Add some padding */
-  border-bottom: 1px solid #ccc; 
+  border-bottom: 1px solid #ccc;
 }
 
 .conversation-item:hover {
@@ -64,25 +62,48 @@
 
 /* Adjust main content to accommodate sidebar */
 .chat-container {
-  margin-left: 320px; 
-  width: calc(100% - 340px); 
+  transition: margin-left 0.3s ease; /* Smooth transition */
+  width: 100%; /* Default full width */
+  padding: 20px;
 }
 
+/* Shift content when sidebar is visible */
+.conversation-bar.visible ~ .chat-container {
+  margin-left: 20vw;
+  width: calc(100% - 20vw);
+}
+
+/* Delete Button */
 .delete-button {
   display: flex; /* Make the button a flex container */
   justify-content: center; /* Center the icon horizontally */
   align-items: center; /* Center the icon vertically */
-  background-color: transparent; /* Red color for the delete button */
+  background-color: transparent; /* Transparent button */
   padding: 5px 10px;
   border: none;
   border-radius: 4px;
   cursor: pointer;
   transition: background-color 0.3s ease;
-
 }
 
-.delete-button i{
-  font-size: 14px; /* Adjust icon size */
-  margin: 0; /* Remove any margin around the icon */
+.delete-button i {
+  font-size: 14px; 
+  margin: 0; 
   color: grey;
+}
+
+@media (max-width: 768px) {
+  .conversation-bar {
+    width: 60vw; 
+    left: -60vw;
+  }
+
+  .conversation-bar.visible {
+    left: 0;
+  }
+
+  .conversation-bar.visible ~ .chat-container {
+    margin-left: 60vw;
+    width: calc(100% - 60vw);
+  }
 }

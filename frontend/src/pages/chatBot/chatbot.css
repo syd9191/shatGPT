@@ -5,6 +5,7 @@
   justify-content: flex-start;
   align-items: center;
   height: 100vh;
+  max-width: 100vw;
   background-color: #1f1f1f; 
   font-family: 'Arial', sans-serif;
   color: #eaeaea; /* Soft off-white text */

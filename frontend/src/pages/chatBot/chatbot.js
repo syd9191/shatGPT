@@ -148,7 +148,6 @@ const ChatbotPage = () => {
        setTokensUsed={setTokensUsed}
       />
 
-    
   
       <ChatContainer
         conversationHistory={conversationHistory}
