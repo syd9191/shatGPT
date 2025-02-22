@@ -84,9 +84,7 @@ const ChatbotPage = () => {
       lastUpdated: new Date().toISOString(),
       totalTokens: 0,
       latestMessage: "",
-      user_id: conversationHistory.user_id,
-      __v: conversationHistory.__v, 
-      _id: conversationHistory._id
+      user_id: conversationHistory.user_id
     };
     const response=await axios.post("http://127.0.0.1:3000/clear-conversation", {conversationHistory: clearedConversationhistory});
     if (response.status===200){
