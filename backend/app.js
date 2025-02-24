@@ -56,7 +56,7 @@ const getLLMreply= async (userMessage)=>{
         pingLLMServer();
         pingBackendServer();
 
-        const reply = await axios.post("http://llmserver-container:5001/chatbot/generate", userMessage);
+        const reply = await axios.post("http://127.0.0.1:5001/chatbot/generate", userMessage);
 
         console.log('backend server received obect from frontend: ', reply.data);
 

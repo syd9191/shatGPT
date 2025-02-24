@@ -79,12 +79,14 @@ const ChatbotPage = () => {
 
   const handleClearContext = async()=>{
     const clearedConversationhistory={
+      _id: conversationHistory._id, 
       conversation: [], 
       createdAt: conversationHistory.createdAt,
       lastUpdated: new Date().toISOString(),
       totalTokens: 0,
       latestMessage: "",
-      user_id: conversationHistory.user_id
+      user_id: conversationHistory.user_id,
+      title: conversationHistory.title
     };
     const response=await axios.post("http://127.0.0.1:3000/clear-conversation", {conversationHistory: clearedConversationhistory});
     if (response.status===200){
