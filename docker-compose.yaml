@@ -1,0 +1,32 @@
+services:
+  frontend:
+    image: frontend-image
+    container_name: ${FRONTEND_CONTAINER_NAME}
+    environment:
+      - REACT_APP_BACKEND_SERVER_URL=http://backend-container:3000
+    ports:
+      - "80:80"
+    depends_on:
+      - backend
+    networks:
+      - shatgpt-network
+
+  backend:
+    image: backend-image
+    container_name: ${BACKEND_CONTAINER_NAME}
+    ports:
+      - "3000:3000"
+    networks:
+      - shatgpt-network
+
+  llmserver:
+    image: llmserver-image
+    container_name: ${LLMSERVER_CONTAINER_NAME}
+    ports:
+      - "5001:5001"
+    networks:
+      - shatgpt-network
+
+networks:
+  shatgpt-network:
+    driver: bridge

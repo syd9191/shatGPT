@@ -1,0 +1,9 @@
+### Run all to build image from main folder
+
+docker build -t frontend-image ./frontend
+docker build -t backend-image ./backend
+docker build -t llmserver-image ./llmserver
+
+
+### Run this to run docker compose 
+docker compose up --build -d

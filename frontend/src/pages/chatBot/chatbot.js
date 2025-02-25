@@ -16,9 +16,10 @@ const ChatbotPage = () => {
   const [dropDownVisible, setDropDownVisible]= useState(false);
   const [conversationBarVisible, setConversationBarVisible]= useState(false);
 
-
+  
   const {logout} = useAuth();
   const sendButtonRef = useRef(null);
+  const backendURL=process.env.REACT_APP_BACKEND_SERVER_URL;
 
  // Include dependencies
 
@@ -58,7 +59,7 @@ const ChatbotPage = () => {
       setIsSending(true);
       
 
-      const chatResponse = await axios.post('http://127.0.0.1:3000/api/chatbot', {conversationHistory: newConversationHistory});
+      const chatResponse = await axios.post(`${backendURL}/api/chatbot`, {conversationHistory: newConversationHistory});
       console.log("Chat Response:", chatResponse.data);
 
       setTokensUsed(chatResponse.data.totalTokens);
@@ -88,7 +89,7 @@ const ChatbotPage = () => {
       user_id: conversationHistory.user_id,
       title: conversationHistory.title
     };
-    const response=await axios.post("http://127.0.0.1:3000/clear-conversation", {conversationHistory: clearedConversationhistory});
+    const response=await axios.post(`${backendURL}/clear-conversation`, {conversationHistory: clearedConversationhistory});
     if (response.status===200){
       setConversationHistory(clearedConversationhistory);
     }else{

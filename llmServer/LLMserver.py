@@ -4,13 +4,10 @@ from dotenv import load_dotenv
 from openai import OpenAI
 from fastapi import FastAPI,HTTPException
 from fastapi.middleware.cors import CORSMiddleware
-from fastapi.encoders import jsonable_encoder
-from fastapi.responses import JSONResponse
 import uvicorn
 from datetime import datetime
-from fastapi.encoders import jsonable_encoder
 
-from schema import chatResponse, ConversationHistory, ChatCompletionMessage
+from schema import ConversationHistory
 
 load_dotenv()
 
@@ -63,7 +60,7 @@ async def chatBot(conversationHistory: ConversationHistory):
 
 
 if __name__=="__main__":
-    uvicorn.run(app, host="127.0.0.1", port=5001)
+    uvicorn.run(app, host="0.0.0.0", port=5001)
 
 
 

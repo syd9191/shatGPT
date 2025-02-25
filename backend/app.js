@@ -21,6 +21,7 @@ require('dotenv').config();
 const port = 3000; //abstract this to config file at a later time
 const app= express();
 const DBURI= process.env.DBURI;
+const llmServerURL= process.env.LLM_SERVER_URL;
 
 
 
@@ -56,7 +57,9 @@ const getLLMreply= async (userMessage)=>{
         pingLLMServer();
         pingBackendServer();
 
-        const reply = await axios.post("http://127.0.0.1:5001/chatbot/generate", userMessage);
+        console.log(`${llmServerURL}/chatbot/generate`);
+
+        const reply = await axios.post(`${llmServerURL}/chatbot/generate`, userMessage);
 
         console.log('backend server received obect from frontend: ', reply.data);
 

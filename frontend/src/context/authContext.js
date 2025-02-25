@@ -1,8 +1,10 @@
 import React, { useEffect, useState, useContext, createContext } from 'react';
 import axios from 'axios';
 
+
 const authContext = createContext();
 
+const backendURL=process.env.REACT_APP_BACKEND_SERVER_URL;
 
 export const useAuth = () => {
   return useContext(authContext); 
@@ -21,7 +23,7 @@ export const AuthProvider = ({ children }) => {
 
   const login = async (userData) => {
     try{
-      const response = await axios.post('http://127.0.0.1:3000/login', userData);
+      const response = await axios.post(`${backendURL}/login`, userData);
       console.log(response.data);
 
       const newUser = {
@@ -45,7 +47,7 @@ export const AuthProvider = ({ children }) => {
 
   const signup = async (userData) => {
     try{
-      const response = await axios.post('http://127.0.0.1:3000/signup', userData);
+      const response = await axios.post(`${backendURL}/signup`, userData);
       console.log(response.data);
       return response.data; 
     } catch (error){
